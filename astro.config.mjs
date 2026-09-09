@@ -11,6 +11,6 @@ export default defineConfig({
       allowedHosts: true
     }
   },
-  site: 'https://os.inled.es',
+  site: 'https://bittenfruit.inled.es',
   integrations: [sitemap()],
 });
