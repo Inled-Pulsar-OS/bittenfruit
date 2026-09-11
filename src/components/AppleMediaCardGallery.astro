@@ -2,6 +2,12 @@
 import { GALLERY_FEATURES } from '@/config/site';
 
 const galleryItems = GALLERY_FEATURES;
+
+// SourceForge badge snippets (they inject their own remote script at load time)
+const sfBadgeBase = `<div class="sf-root" data-id="4122850" data-badge="__BADGE__" style="width:125px"><a href="https://sourceforge.net/projects/pulsaros-inled/" target="_blank" rel="noopener">Pulsar OS</a></div>`;
+const sfBadgesHtml =
+  sfBadgeBase.replace('__BADGE__', 'oss-rising-star-white') +
+  sfBadgeBase.replace('__BADGE__', 'oss-users-love-us-white');
 ---
 
 <section id="gallery-section" class="pt-32 sm:pt-44 pb-24 sm:pb-32 bg-[#f5f5f7] text-[#1d1d1f] overflow-hidden border-t border-neutral-100 transition-colors">
@@ -16,7 +22,7 @@ const galleryItems = GALLERY_FEATURES;
     <div id="media-card-track" class="flex gap-6 w-max items-stretch px-6 lg:px-0">
       {galleryItems.map((item, index) => (
         <article
-          class="group relative w-75 sm:w-100 md:w-120 h-130 sm:h-145 rounded-[24px] sm:rounded-4xl overflow-hidden bg-[#1d1d1f] text-white shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer shrink-0 flex flex-col justify-between p-8 sm:p-10 select-none"
+          class="group relative w-[min(82vw,340px)] sm:w-[min(56vw,400px)] lg:w-[min(32vw,400px)] h-[min(64vh,540px)] rounded-[24px] sm:rounded-4xl overflow-hidden bg-[#1d1d1f] text-white shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer shrink-0 flex flex-col justify-between p-8 sm:p-10 select-none"
           data-gallery-card={index}
           data-gallery-video-src={item.video}
           data-gallery-poster={item.poster}
@@ -78,7 +84,36 @@ const galleryItems = GALLERY_FEATURES;
       ))}
     </div>
   </div>
+
+  <!-- Community badges + external link -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mt-10 flex flex-wrap items-center justify-center gap-6">
+    <Fragment set:html={sfBadgesHtml} />
+    <a
+      href="https://distrowatch.com/table.php?distribution=pulsar"
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-secondary)] px-[21px] py-[11px] min-h-11 text-[17px] font-[var(--font-text)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)] hover:text-white transition-colors"
+    >
+      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3"></line>
+      </svg>
+      View on DistroWatch
+    </a>
+  </div>
 </section>
+
+<script is:inline>
+  // SourceForge badge loader (shared by both badges)
+  (function () {
+    var sc = document.createElement('script');
+    sc.async = true;
+    sc.src = 'https://b.sf-syn.com/badge_js?sf_id=4122850';
+    var p = document.getElementsByTagName('script')[0];
+    p.parentNode.insertBefore(sc, p);
+  })();
+</script>
 
 <!-- Lightbox: click any card to maximize its video -->
 <dialog id="gallery-lightbox" class="gallery-lightbox">
