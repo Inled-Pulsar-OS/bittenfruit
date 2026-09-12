@@ -10,8 +10,8 @@ const sfBadgesHtml =
   sfBadgeBase.replace('__BADGE__', 'oss-users-love-us-white');
 ---
 
-<section id="gallery-section" class="pt-32 sm:pt-44 pb-24 sm:pb-32 bg-[#f5f5f7] text-[#1d1d1f] overflow-hidden border-t border-neutral-100 transition-colors">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-12">
+<section id="gallery-section" class="pt-32 sm:pt-44 pb-24 sm:pb-32 bg-[#f5f5f7] text-[#1d1d1f] overflow-hidden border-t border-neutral-100 transition-colors lg:pt-24 lg:pb-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 lg:mb-6">
     <h2 class="text-4xl sm:text-6xl font-semibold tracking-tight text-[#1d1d1f] leading-tight max-w-3xl">
       Get to know PulsarOS Bitten Fruit.
     </h2>
@@ -19,10 +19,10 @@ const sfBadgesHtml =
 
   <!-- Horizontal Pinned Scroll Track -->
   <div id="gallery-track-wrapper" class="w-full overflow-x-auto lg:overflow-x-visible pb-10">
-    <div id="media-card-track" class="flex gap-6 w-max items-stretch px-6 lg:px-0">
+    <div id="media-card-track" class="flex gap-6 w-max items-stretch px-6 lg:px-[max(1.5rem,calc((100vw-80rem)/2))]">
       {galleryItems.map((item, index) => (
         <article
-          class="group relative w-[min(82vw,340px)] sm:w-[min(56vw,400px)] lg:w-[min(32vw,400px)] h-[min(64vh,540px)] rounded-[24px] sm:rounded-4xl overflow-hidden bg-[#1d1d1f] text-white shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer shrink-0 flex flex-col justify-between p-8 sm:p-10 select-none"
+          class="group relative w-[min(82vw,340px)] sm:w-[min(56vw,400px)] lg:w-[min(30vw,380px)] h-[min(58vh,500px)] rounded-[24px] sm:rounded-4xl overflow-hidden bg-[#1d1d1f] text-white shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer shrink-0 flex flex-col justify-between p-8 sm:p-10 select-none"
           data-gallery-card={index}
           data-gallery-video-src={item.video}
           data-gallery-poster={item.poster}
@@ -140,12 +140,26 @@ const sfBadgesHtml =
 </dialog>
 
 <style>
+  /* IMPORTANT: never set display on the base rule — a closed <dialog> relies on
+     the UA default display:none. Only style it while [open]. */
   .gallery-lightbox {
     border: none;
-    background: transparent;
     padding: 0;
     max-width: none;
     max-height: none;
+    margin: auto;
+    /* Above GSAP-pinned sections (fixed, z-20) and the floating control bar (z-50) */
+    z-index: 100;
+  }
+  .gallery-lightbox[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    /* Dim + blur the page behind the popup even if ::backdrop styling is unsupported */
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
   }
   .gallery-lightbox::backdrop {
     background: rgba(0, 0, 0, 0.85);

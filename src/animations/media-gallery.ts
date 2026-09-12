@@ -19,15 +19,19 @@ export function initMediaGalleryScroll(root: HTMLElement): void {
       // GSAP owns horizontal movement on desktop: reset native scroll offset.
       wrapper.scrollLeft = 0;
 
-      const scrollAmount = track.scrollWidth - window.innerWidth + 80;
+      // Distance needed so the END of the last card lands exactly at the right
+      // edge of the viewport (nothing clipped, track fully shown).
+      // Functions are re-evaluated on ScrollTrigger.refresh (resize, late loads).
+      const scrollAmount = () =>
+        Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
 
         gsap.to(track, {
-        x: -scrollAmount,
+        x: () => -scrollAmount(),
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: `+=${scrollAmount + 400}`,
+          end: () => `+=${scrollAmount() + 400}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1, // engages smoothly instead of snapping after the hero
