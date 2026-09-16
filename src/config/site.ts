@@ -17,6 +17,8 @@ export const SITE_CONFIG = {
   githubUrl: "https://github.com/Inled-Pulsar-OS",
   releasesUrl: "https://github.com/Inled-Pulsar-OS/ISO/releases/latest",
   downloadsUrl: "https://downloads-os.inled.es/",
+  bugReportUrl: "https://bugme-os.inled.es/",
+  feedUrl: "https://feed-os.inled.es/",
   license: "MIT-INLED",
 } as const;
 

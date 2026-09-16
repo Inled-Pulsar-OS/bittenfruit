@@ -35,7 +35,6 @@ export function initMediaGalleryScroll(root: HTMLElement): void {
           scrub: 1,
           pin: true,
           anticipatePin: 1, // engages smoothly instead of snapping after the hero
-          refreshPriority: 2, // refreshed before the later pins (story, video reel)
           invalidateOnRefresh: true,
         },
       });

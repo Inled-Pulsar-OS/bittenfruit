@@ -1,35 +1,124 @@
 ---
 import { ECOSYSTEM } from '@/config/site';
+
+// Apple-style bento grid: one large hero cell (Windows, with real demo image),
+// three smaller cells for the features without demo screenshots.
+// App name + logo come from the ECOSYSTEM data (WinBoat, MacBoat, DroidTux, GSConnect).
+const appLogo = (name: string) => ECOSYSTEM.find((app) => app.name === name)?.logo ?? '';
+
+const heroCell = {
+  id: 'highlight-windows',
+  appName: 'WinBoat',
+  appLogo: appLogo('WinBoat'),
+  title: 'Run Windows apps as native.',
+  description:
+    "Run Windows apps as if they were native, but without emulation: with real Windows downloaded from Microsoft.",
+  image: '/assets/windows-apps.webp',
+  imageAlt: 'Windows apps running as native windows on the Pulsar OS desktop',
+};
+
+const smallCells = [
+  {
+    id: 'highlight-macos',
+    appName: 'MacBoat',
+    appLogo: appLogo('MacBoat'),
+    title: 'Run full macOS',
+    description:
+      "Do you still miss Mac? Well, MacOS can work within Pulsar OS! We will download it to you with a few simple steps!.",
+  },
+  {
+    id: 'highlight-mobile',
+    appName: 'DroidTux',
+    appLogo: appLogo('DroidTux'),
+    title: "Show your phone's apps as desktop apps.",
+    description:
+      "DroidTux runs your phone's Android apps as if they were native desktop apps. And since it's your actual phone doing the work, you carry them in your pocket.",
+  },
+  {
+    id: 'highlight-gsconnect',
+    appName: 'GSConnect',
+    appLogo: appLogo('GSConnect'),
+    title: 'Your phone, integrated.',
+    description:
+      'GSConnect unifies your phone and your computer: notifications, messages, shared clipboard, file sharing and remote control. Works with Android and, yes, even with iPhone.',
+  },
+];
 ---
 
-<section id="connectivity" aria-label="Ecosystem Connectivity and Integration" class="py-24 sm:py-32 bg-[#ffffff] px-4 sm:px-6 border-t border-neutral-100">
+<section id="connectivity" aria-label="Ecosystem Connectivity and Integration" class="py-24 sm:py-32 bg-surface-default px-4 sm:px-6 border-t border-neutral-100">
   <div class="max-w-6xl mx-auto">
-    
+
     <header class="text-center max-w-3xl mx-auto mb-16">
       <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-3 block">Seamless Integration</span>
-      <h2 class="text-4xl sm:text-6xl font-semibold tracking-tight text-[#1d1d1f]">
-        Works connected everywhere.
+      <h2 class="gsap-text-reveal text-4xl sm:text-6xl font-semibold tracking-tight text-on-surface-default">
+        All OS here, in one
       </h2>
-      <p class="mt-4 text-lg sm:text-xl text-on-surface-muted leading-relaxed">
-        PulsarOS Bitten Fruit bridges macOS, Windows, and Android natively.
+      <p class="gsap-text-reveal mt-4 text-lg sm:text-xl text-on-surface-muted leading-relaxed">
+        Nobody has ever done this. We are capable. Windows, macOS and your phone on a single PC. Amazing.
       </p>
     </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {ECOSYSTEM.map((item) => (
-        <article class="bg-[#f5f5f7] rounded-3xl p-8 border border-neutral-100 flex flex-col justify-between hover:border-primary/40 transition-colors">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-medium text-primary uppercase tracking-wider">{item.tag}</span>
-              <img src={item.logo} alt="" class="h-8 w-8 object-contain" aria-hidden="true" />
-            </div>
-            <h3 class="text-2xl font-semibold text-[#1d1d1f] mb-2">{item.name}</h3>
-            <p class="text-sm font-medium text-[#1d1d1f] mb-3">{item.headline}</p>
-            <p class="text-sm text-on-surface-muted leading-relaxed">{item.description}</p>
-          </div>
+    <!-- Apple-style bento grid: 1 big + 3 small -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+      <!-- Big hero cell: Windows apps with demo image -->
+      <article
+        id={heroCell.id}
+        class="gsap-bento-card md:col-span-2 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center bg-surface-muted rounded-[var(--radius-xl)] border border-neutral-100 p-8 sm:p-12 hover:border-primary/40 transition-colors"
+      >
+        <div class="flex-1">
+          <span class="inline-flex items-center gap-2.5 mb-4">
+            <img src={heroCell.appLogo} alt="" class="h-7 w-7 object-contain" aria-hidden="true" />
+            <span class="font-display font-semibold text-on-surface-default">{heroCell.appName}</span>
+          </span>
+          <h3 class="font-display text-3xl sm:text-4xl font-bold tracking-tight text-on-surface-default mb-4">
+            {heroCell.title}
+          </h3>
+          <p class="text-lg text-on-surface-muted leading-relaxed">{heroCell.description}</p>
+        </div>
+        <div class="flex-1 w-full">
+          <img
+            src={heroCell.image}
+            alt={heroCell.imageAlt}
+            class="w-full rounded-[var(--radius-md)] border border-neutral-100"
+            width="1280"
+            height="800"
+            loading="lazy"
+          />
+        </div>
+      </article>
+
+      <!-- Small cells -->
+      {smallCells.map((cell) => (
+        <article
+          id={cell.id}
+          class="gsap-bento-card bg-surface-muted rounded-[var(--radius-xl)] border border-neutral-100 p-8 hover:border-primary/40 transition-colors"
+        >
+          <span class="inline-flex items-center gap-2.5 mb-4">
+            <img src={cell.appLogo} alt="" class="h-6 w-6 object-contain" aria-hidden="true" />
+            <span class="font-display font-semibold text-on-surface-default">{cell.appName}</span>
+          </span>
+          <h3 class="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-on-surface-default mb-3">
+            {cell.title}
+          </h3>
+          <p class="text-base text-on-surface-muted leading-relaxed">{cell.description}</p>
         </article>
       ))}
     </div>
+
+    <!-- Dual boot: understated mention -->
+    <article
+      id="highlight-dualboot"
+      class="gsap-bento-card mt-6 bg-surface-muted rounded-[var(--radius-xl)] border border-neutral-100 p-8 text-center hover:border-primary/30 transition-colors"
+    >
+      <h3 class="font-display text-xl sm:text-2xl font-semibold tracking-tight text-on-surface-default mb-2">
+        Dual boot support is here.
+      </h3>
+      <p class="text-base text-on-surface-muted leading-relaxed max-w-2xl mx-auto">
+        Keep your current operating system and Pulsar OS side by side on the same disk, and choose at startup.
+        <span class="text-sm">Still in testing — but coming along nicely.</span>
+      </p>
+    </article>
 
   </div>
 </section>

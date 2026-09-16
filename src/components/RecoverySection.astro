@@ -1,0 +1,127 @@
+---
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+// Real lucide-static SVGs (v1.43.0), read at build time — no hand-made paths.
+const LUCIDE = resolve('node_modules/lucide-static/icons');
+
+function lucideIcon(name: string): string {
+  const svg = readFileSync(resolve(LUCIDE, `${name}.svg`), 'utf-8');
+  // Strip license comment, class attribute and fixed size so our classes apply.
+  return svg
+    .replace(/<!--[\s\S]*?-->/, '')
+    .replace(/class="[^"]*"/, '')
+    .replace(/width="\d+"/, '')
+    .replace(/height="\d+"/, '');
+}
+
+// Severity ladder: each step is a worse disaster, and each one still has a way back.
+const recoveryLadder = [
+  {
+    icon: lucideIcon('hard-drive'),
+    title: 'Time Machine',
+    description:
+      'Your system is backed up against a disk, a USB drive, a NAS or any of 55 cloud providers. Restore everything in one click. Nothing even feels broken.',
+  },
+  {
+    icon: lucideIcon('globe'),
+    title: 'Internet Recovery',
+    description:
+      'The system won\'t start? Enter on the Recovery and Internet Recovery downloads a fresh recovery environment from our servers, Apple-style.',
+  },
+  {
+    icon: lucideIcon('usb'),
+    title: 'USB Recovery',
+    description:
+      'No network? Connect a USB to the live environment that contains a squashfs and restore from it',
+  },
+  {
+    icon: lucideIcon('disc'),
+    title: 'The Live ISO',
+    description:
+      'Wiped the bootloader AND the recovery partition? The very ISO you downloaded to install Pulsar OS contains a full recovery environment. Boot it and repair, reset or roll back. You are never locked out.',
+  },
+];
+---
+
+<!-- Recovery: You'll never break it — severity ladder -->
+<section id="recovery-section" class="py-24 sm:py-36 bg-surface-default text-on-surface-default px-4 sm:px-6 border-t border-neutral-100">
+  <div class="max-w-4xl mx-auto">
+
+    <header class="text-center max-w-3xl mx-auto mb-20">
+      <span class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-primary mb-3 block">Recovery</span>
+      <h2 class="gsap-text-reveal text-4xl sm:text-6xl font-bold font-display tracking-tight text-on-surface-default leading-tight">
+        You'll never break it.
+      </h2>
+      <p class="gsap-text-reveal mt-5 text-lg sm:text-xl text-on-surface-muted leading-relaxed">
+        Like a Mac, Pulsar OS ships with a hidden recovery partition. But we went further:
+        however bad the disaster is, there is always a way back. The further down you go, the worse it gets —
+        and every step still recovers.
+      </p>
+    </header>
+
+    <!-- Severity ladder: each step worse than the last, none fatal -->
+    <ol class="relative space-y-0">
+      {recoveryLadder.map((step, index) => (
+        <li class="gsap-bento-card relative flex gap-6 pb-14 last:pb-0">
+          <!-- Vertical connector line between steps -->
+          {index < recoveryLadder.length - 1 && (
+            <span
+              class="absolute left-[27px] top-16 bottom-0 w-0.5 bg-gradient-to-b from-neutral-100 to-neutral-100/40"
+              aria-hidden="true"
+            ></span>
+          )}
+
+          <!-- Severity node: grows more alarming as you descend -->
+          <span
+            class:list={[
+              'relative z-10 shrink-0 size-14 rounded-full border flex items-center justify-center transition-colors',
+              index === 0 && 'bg-primary/10 border-primary/30 text-primary',
+              index === 1 && 'bg-primary/10 border-primary/40 text-primary',
+              index === 2 && 'bg-primary/20 border-primary/50 text-primary',
+              index === 3 && 'bg-primary text-on-surface-inverse border-primary',
+            ]}
+          >
+            <svg
+              class="size-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={step.icon}
+            />
+          </span>
+
+          <div class="pt-1">
+            <div class="flex items-baseline gap-3 flex-wrap">
+              <h3 class="font-display text-2xl font-semibold tracking-tight text-on-surface-default">
+                {step.title}
+              </h3>
+              <span class="text-[11px] uppercase tracking-widest font-semibold text-on-surface-muted">
+                {index === 0 ? 'Best case' : index === recoveryLadder.length - 1 ? 'Worst case' : `Level ${index + 1}`}
+              </span>
+            </div>
+            <p class="mt-2 text-base sm:text-lg text-on-surface-muted leading-relaxed max-w-2xl">
+              {step.description}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <!-- Reassurance strip -->
+    <div class="mt-16 rounded-[var(--radius-lg)] bg-surface-muted border border-neutral-100 p-8 sm:p-10 text-center">
+      <p class="text-lg sm:text-xl text-on-surface-default font-display font-semibold mb-2">
+        Panic is not part of the workflow.
+      </p>
+      <p class="text-on-surface-muted text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+        And with <strong class="text-on-surface-default">Time Machine</strong> — which works beautifully against a disk, a USB stick,
+        a NAS or 55 cloud providers — your data was never in danger in the first place.
+      </p>
+    </div>
+
+  </div>
+</section>

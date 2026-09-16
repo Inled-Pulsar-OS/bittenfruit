@@ -21,6 +21,20 @@ const links = [
     iconBody:
       '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/>',
   },
+  {
+    title: "Report a Bug",
+    description: "Something broke? Tell us at BugMe and we'll fix it.",
+    href: "https://bugme-os.inled.es/",
+    iconBody:
+      '<rect width="8" height="14" x="8" y="6" rx="4"/><path d="m19 7-3 2"/><path d="m5 7 3 2"/><path d="m19 19-3-2"/><path d="m5 19 3-2"/><path d="m20 13h-4"/><path d="m4 13h4"/><path d="m10 4 1 2"/><path d="m14 4-1 2"/>',
+  },
+  {
+    title: "RSS Feed",
+    description: "Subscribe and get every release and news in your reader.",
+    href: "https://feed-os.inled.es/",
+    iconBody:
+      '<path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>',
+  },
 ];
 ---
 
@@ -34,34 +48,45 @@ const links = [
       Explore the ecosystem, find answers, and grab the resources you need.
     </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      {links.map((link) => (
-        <a
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex flex-col items-center text-center gap-5 rounded-[var(--radius-xl)] bg-surface-default border border-neutral-100 p-10 hover:border-primary/40 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-        >
-          <span class="size-14 rounded-full bg-surface-muted border border-neutral-100 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-            <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={link.iconBody} />
-          </span>
-          <span>
-            <span class="block font-display text-2xl font-semibold text-on-surface-default tracking-tight mb-2">
-              {link.title}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+      {links.map((link, index) => {
+        const isBottomRow = index >= 3;
+        return (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[
+              "group flex flex-col justify-between rounded-[var(--radius-xl)] bg-surface-default border border-neutral-100 p-7 sm:p-8 hover:border-primary/40 hover:shadow-lg transition-all duration-300 hover:-translate-y-1",
+              isBottomRow
+                ? "sm:col-span-1 lg:col-span-3"
+                : "sm:col-span-1 lg:col-span-2",
+              index === 4 ? "sm:col-span-2 lg:col-span-3" : ""
+            ]}
+          >
+            <div>
+              <div class="flex items-center gap-4 mb-4">
+                <span class="size-12 rounded-full bg-surface-muted border border-neutral-100 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={link.iconBody} />
+                </span>
+                <h3 class="font-display text-xl sm:text-2xl font-semibold text-on-surface-default tracking-tight">
+                  {link.title}
+                </h3>
+              </div>
+              <p class="text-sm sm:text-base text-on-surface-muted leading-relaxed mb-6">
+                {link.description}
+              </p>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-secondary font-medium text-sm group-hover:underline mt-auto">
+              Open
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 7h10v10" />
+                <path d="M7 17 17 7" />
+              </svg>
             </span>
-            <span class="block text-sm sm:text-base text-on-surface-muted leading-relaxed max-w-xs mx-auto">
-              {link.description}
-            </span>
-          </span>
-          <span class="inline-flex items-center gap-1.5 text-secondary font-medium text-sm group-hover:underline">
-            Open
-            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 7h10v10" />
-              <path d="M7 17 17 7" />
-            </svg>
-          </span>
-        </a>
-      ))}
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>
