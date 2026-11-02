@@ -1,0 +1,150 @@
+---
+interface Props {}
+---
+
+<!-- Pulsar OS 2.0 Popup Overlay -->
+<div
+  id="v2-popup-overlay"
+  class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-md transition-opacity duration-300 opacity-0"
+>
+  <div class="flex items-center justify-center min-h-full p-4 sm:p-6">
+    <!-- Black rounded popup box -->
+    <div
+      id="v2-popup"
+      class="bg-[#121212] border border-white/10 rounded-[32px] p-8 sm:p-10 max-w-sm w-full text-center relative shadow-2xl scale-95 opacity-0 transition-all duration-500 ease-out"
+    >
+      <!-- Close X button -->
+      <button
+        id="close-v2-popup"
+        class="absolute top-4 right-4 text-white/50 hover:text-white transition-colors text-2xl font-bold leading-none"
+        aria-label="Close popup"
+      >
+        &times;
+      </button>
+
+      <!-- "2.0" with dark gradient bottom -->
+      <h1
+        id="v2-title"
+        class="text-6xl sm:text-7xl font-bold mb-2 leading-none tracking-tight opacity-0 translate-y-4 transition-all duration-700 ease-out"
+        style="
+          background: linear-gradient(to bottom, #ffffff 0%, #1a1a1a 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        "
+      >
+        2.0
+      </h1>
+
+      <h2 class="text-2xl sm:text-3xl font-semibold text-white mb-6 tracking-tight opacity-0 translate-y-2 transition-all duration-500 ease-out">
+        Coming soon
+      </h2>
+
+      <p class="text-sm sm:text-base text-white/80 mb-8 leading-relaxed opacity-0 translate-y-2 transition-all duration-300 ease-out">
+        The biggest change in Pulsar OS. Nobody does what we do. No distro has achieved this. Stay tuned.
+      </p>
+
+      <!-- Discord button -->
+      <a
+        href="https://link.inled.es/discord"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block bg-[var(--color-primary)] text-[var(--color-on-surface-inverse)] px-6 py-3 rounded-full font-medium text-sm sm:text-base transition-colors hover:bg-primary-hover min-h-[44px] flex items-center justify-center mx-auto opacity-0 translate-y-2 transition-all duration-500 ease-out"
+      >
+        Join Discord
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('v2-popup-overlay');
+  const closeBtn = document.getElementById('close-v2-popup');
+
+  const popup = document.getElementById('v2-popup');
+  const title = document.getElementById('v2-title');
+  const subtitle = popup?.querySelector('h2');
+  const description = popup?.querySelector('p');
+  const discordBtn = popup?.querySelector('a');
+
+  function openPopup() {
+    if (!overlay || !popup) return;
+    overlay.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      overlay.classList.remove('opacity-0');
+      popup.classList.remove('scale-95', 'opacity-0');
+      popup.classList.add('scale-100', 'opacity-100');
+
+      if (title) {
+        title.classList.remove('opacity-0', 'translate-y-4');
+        title.classList.add('opacity-100', 'translate-y-0');
+      }
+      if (subtitle) {
+        setTimeout(() => {
+          subtitle.classList.remove('opacity-0', 'translate-y-2');
+          subtitle.classList.add('opacity-100', 'translate-y-0');
+        }, 150);
+      }
+      if (description) {
+        setTimeout(() => {
+          description.classList.remove('opacity-0', 'translate-y-2');
+          description.classList.add('opacity-100', 'translate-y-0');
+        }, 300);
+      }
+      if (discordBtn) {
+        setTimeout(() => {
+          discordBtn.classList.remove('opacity-0', 'translate-y-2');
+          discordBtn.classList.add('opacity-100', 'translate-y-0');
+        }, 450);
+      }
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    if (!overlay || !popup) return;
+    overlay.classList.add('opacity-0');
+    popup.classList.remove('scale-100', 'opacity-100');
+    popup.classList.add('scale-95', 'opacity-0');
+
+    if (title) {
+      title.classList.remove('opacity-100', 'translate-y-0');
+      title.classList.add('opacity-0', 'translate-y-4');
+    }
+    if (subtitle) {
+      subtitle.classList.remove('opacity-100', 'translate-y-0');
+      subtitle.classList.add('opacity-0', 'translate-y-2');
+    }
+    if (description) {
+      description.classList.remove('opacity-100', 'translate-y-0');
+      description.classList.add('opacity-0', 'translate-y-2');
+    }
+    if (discordBtn) {
+      discordBtn.classList.remove('opacity-100', 'translate-y-0');
+      discordBtn.classList.add('opacity-0', 'translate-y-2');
+    }
+
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+    }, 500);
+    document.body.style.overflow = '';
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closePopup);
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closePopup();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay && !overlay.classList.contains('hidden')) {
+      closePopup();
+    }
+  });
+
+  setTimeout(() => openPopup(), 800);
+</script>
