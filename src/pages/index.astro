@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import HeroSection from '@/components/HeroSection.astro';
-import AppleMediaCardGallery from '@/components/AppleMediaCardGallery.astro';
+import PinnedFeaturesSection from '@/components/PinnedFeaturesSection.astro';
 import StorySection from '@/components/StorySection.astro';
 import EcosystemSection from '@/components/EcosystemSection.astro';
 import CloudProvidersSection from '@/components/CloudProvidersSection.astro';
@@ -17,7 +17,7 @@ import { SITE_CONFIG } from '@/config/site';
 
 <Layout title={`${SITE_CONFIG.name} — ${SITE_CONFIG.brandTagline}`}>
   <HeroSection />
-  <AppleMediaCardGallery />
+  <PinnedFeaturesSection />
   <BenefitsSection />
   <EcosystemSection />
   <EditionsSection />
@@ -31,20 +31,16 @@ import { SITE_CONFIG } from '@/config/site';
 
 <script>
   import { initHeroReveal, cleanupHeroReveal } from '@/animations/hero-reveal';
+  import { initHeroPullUp, cleanupHeroPullUp } from '@/animations/hero-pullup';
   import { initScrollReveal, cleanupScrollReveal } from '@/animations/scroll-reveal';
   import { initInteractiveStory, cleanupInteractiveStory } from '@/animations/interactive-story';
-  import { initMediaGalleryScroll, cleanupMediaGalleryScroll } from '@/animations/media-gallery';
-
   function initPage() {
     const root = document.getElementById('main-root');
     if (!root) return;
 
     initHeroReveal(root);
+    initHeroPullUp(root);
     initScrollReveal(root);
-    // Media gallery must init before the story section: its pinned ScrollTrigger sits earlier in
-    // the page, and pins refresh in creation order — otherwise Story/Bento
-    // compute their start position before the gallery's pin spacing exists and overlap.
-    initMediaGalleryScroll(root);
     initInteractiveStory(root);
 
     document.getElementById('btn-scroll-top')?.addEventListener('click', () => {
@@ -54,9 +50,9 @@ import { SITE_CONFIG } from '@/config/site';
 
   function cleanupPage() {
     cleanupHeroReveal();
+    cleanupHeroPullUp();
     cleanupScrollReveal();
     cleanupInteractiveStory();
-    cleanupMediaGalleryScroll();
   }
 
   document.addEventListener('astro:page-load', initPage);

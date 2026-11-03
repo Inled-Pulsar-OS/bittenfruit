@@ -1,5 +1,22 @@
 ---
 import { SITE_CONFIG } from '@/config/site';
+
+const PHRASES = [
+  "No reinventing the wheel",
+  "Based on real needs",
+  "Not just another GNOME with a theme on top",
+  "No AI slop, not Claude — AI only helps, human-verified",
+  "With a real ecosystem, from phone to Windows",
+  "With direct support from the creator and contributors",
+];
+
+// Contributors shown in the hero trust band. adilsongrima1-beep removed per request.
+const AVATARS = [
+  { src: "/assets/people/jaimegh.png", name: "JaimeGH" },
+  { src: "/assets/people/victor1890.png", name: "Victor1890" },
+  { src: "/assets/people/hhh.png", name: "hhh" },
+  { src: "https://avatars.githubusercontent.com/u/332994032?v=4", name: "Angelo Mario Pavia" },
+];
 ---
 
 <!-- Preload instructions hoisted to head -->
@@ -13,106 +30,78 @@ import { SITE_CONFIG } from '@/config/site';
 
 
     <h1 class="gsap-reveal-hero text-5xl sm:text-7xl lg:text-8xl font-bold font-display tracking-tight text-on-surface-default leading-[1.03] mb-6 text-balance">
-      The macOS experience<br />
-      <span class="bg-linear-to-r from-on-surface-default via-on-surface-default to-on-surface-muted bg-clip-text text-transparent">
-        on Linux.
-      </span>
+      The real<br />
+      <span class="text-on-surface-default">Mac</span>
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0071e3] via-[#0066cc] to-[#1d1d1f]">OS</span> experience<br />
+      on Linux
     </h1>
 
-    <p class="gsap-reveal-hero text-lg sm:text-2xl text-on-surface-muted max-w-2xl font-normal leading-relaxed mb-8 text-balance">
-      It has the good of both worlds, it is as easy to use as macOS (even easier) and as free and secure as Linux
-    </p>
+    <!-- Rotating pull-up subhead (GSAP: one phrase pulls up at a time) -->
+    <div class="gsap-reveal-hero pull-up-viewport relative h-[52px] sm:h-[68px] overflow-hidden w-full mb-8">
+      <div class="pull-up-track absolute inset-0 flex items-center justify-center w-full">
+        {PHRASES.map((phrase) => (
+          <div class="pull-up-item absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-[16px] sm:text-[20px] text-on-surface-muted leading-tight text-center">
+            {phrase}
+          </div>
+        ))}
+      </div>
+    </div>
 
-    <div class="gsap-reveal-hero flex flex-col sm:flex-row items-center justify-center gap-5 mb-10">
-      <a href={SITE_CONFIG.downloadsUrl} target="_blank" rel="noopener" class="apple-button-primary">
-        Download Bittenfruit ISO
+    <div class="gsap-reveal-hero grid grid-cols-2 gap-5 w-full max-w-[420px] mb-10">
+      <a
+        href={SITE_CONFIG.downloadsUrl}
+        target="_blank"
+        rel="noopener"
+        class="w-full inline-flex items-center justify-center gap-1.5 bg-[#121212] border border-white/10 text-white rounded-[32px] px-5 py-3 min-h-[44px] text-sm sm:text-base font-medium transition-colors hover:bg-white/10"
+      >
+        Coming Soon
+        <span
+          class="text-[21px] sm:text-[26px] font-bold tracking-tight"
+          style="background: linear-gradient(to bottom, #ffffff 0%, #1a1a1a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+        >
+          2.0
+        </span>
       </a>
-      <a href="#interactive-story-section" class="apple-button-secondary">
+      <a href="#interactive-story-section" class="apple-button-secondary w-full">
         Explore features
       </a>
     </div>
-  </header>
 
-  <!-- Studio Display / Laptop Hardware Frame with Dynamic Zoom -->
-  <figure id="display-container" class="relative w-full max-w-6xl mx-auto mt-4 origin-top z-20">
-    <div class="relative rounded-xl bg-surface-elevated p-3 sm:p-4 shadow-xl border border-neutral-100">
-      <div class="absolute top-2.5 left-1/2 -translate-x-1/2 size-2.5 rounded-full bg-black border border-white/20 z-20"></div>
-      <div class="rounded-lg overflow-hidden bg-black relative border border-black aspect-video shadow-inner">
-        <video 
-          id="hero-video"
-          src="https://hosted.inled.es/cdn/PulsarAdHorizontal.mp4" 
-          poster="/assets/desktop.png"
-          autoplay
-          loop
-          muted
-          playsinline
-          aria-label="Live Desktop Preview of PulsarOS Session Restore"
-          class="w-full h-full object-cover object-top"
-        ></video>
-
-        <!-- Audio toggle -->
-        <button
-          id="hero-mute-toggle"
-          type="button"
-          aria-pressed="false"
-          aria-label="Activate video audio"
-          class="absolute top-4 right-4 z-30 size-11 rounded-full bg-black/50 backdrop-blur-md border border-white/25 text-white flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors"
-        >
-          <svg class="icon-sound hidden size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
-            <path d="M16 9a5 5 0 0 1 0 6" />
-            <path d="M19.364 18.364a9 9 0 0 0 0-12.728" />
-          </svg>
-          <svg class="icon-muted size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z" />
-            <path d="m16.5 14.5 5-5" />
-            <path d="m16.5 9.5 5 5" />
-          </svg>
-        </button>
+    <!-- Community trust band -->
+    <div class="gsap-reveal-hero community-band flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+      <span class="text-[15px] text-on-surface-muted">Made by the community</span>
+      <div class="avatar-stack inline-flex items-center space-x-[-3px]">
+        {AVATARS.map((person) => (
+          <img
+            src={person.src}
+            alt={`${person.name} avatar`}
+            class="w-9 h-9 rounded-full border border-neutral-100 bg-surface-default object-cover"
+            width="36"
+            height="36"
+            loading="lazy"
+            aria-label={person.name}
+          />
+        ))}
       </div>
+      <span class="text-[15px] text-on-surface-muted">
+        +1k people trust <span class="text-on-surface-default font-medium">(SourceForge stats)</span>
+      </span>
     </div>
-    <div id="display-stand" class="w-36 h-4 bg-linear-to-b from-[#272729] to-[#121214] mx-auto rounded-b-xl border-x border-b border-white/10 shadow-lg"></div>
-    <figcaption class="sr-only">Live desktop preview video of PulsarOS Session Restore on Studio Display</figcaption>
-  </figure>
+  </header>
 
 </section>
 
-<script>
-  function initHeroAudio() {
-    const video = document.getElementById('hero-video') as HTMLVideoElement | null;
-    const btn = document.getElementById('hero-mute-toggle') as HTMLButtonElement | null;
-    if (!video || !btn) return;
-
-    const soundIcon = btn.querySelector('.icon-sound');
-    const mutedIcon = btn.querySelector('.icon-muted');
-
-    const sync = () => {
-      const muted = video.muted || video.volume === 0;
-      btn.setAttribute('aria-pressed', String(!muted));
-      btn.setAttribute('aria-label', muted ? 'Activate video audio' : 'Mute video audio');
-      soundIcon?.classList.toggle('hidden', muted);
-      mutedIcon?.classList.toggle('hidden', !muted);
-    };
-
-    btn.addEventListener('click', () => {
-      if (video.muted) {
-        video.muted = false;
-        video.volume = 1;
-        video.play().catch(() => {});
-      } else {
-        video.muted = true;
-      }
-      sync();
-    });
-
-    video.addEventListener('volumechange', sync);
-    sync();
+<style>
+  /* Accessibility: with reduced motion, show every phrase instead of clipping to one */
+  @media (prefers-reduced-motion: reduce) {
+    .pull-up-viewport {
+      overflow: visible;
+      height: auto;
+      min-height: auto;
+    }
+    .pull-up-item {
+      opacity: 1;
+      transform: none;
+    }
   }
-
-  document.addEventListener('astro:page-load', initHeroAudio);
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroAudio);
-  } else {
-    initHeroAudio();
-  }
-</script>
+</style>

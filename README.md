@@ -2,7 +2,7 @@
 
 # PulsarOS
 
-### The operating system that remembers you.
+### The MacOS experience on Linux
 
 [![Astro](https://img.shields.io/badge/Astro-7.3.1-orange?logo=astro)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.3.3-blue?logo=tailwindcss)](https://tailwindcss.com)
@@ -17,15 +17,6 @@
 </div>
 
 ---
-
-## Features
-
-- **Spotlight Search** — Find anything, instantly.
-- **Time Machine** — Travel back through your session history.
-- **Window Modes** — Snap, tile, or float your windows.
-- **Cloud Providers** — iCloud, Google Drive, OneDrive, Nextcloud, and more.
-- **App Store** — Native apps built for PulsarOS.
-- **Session Restore** — Pick up exactly where you left off.
 
 ## Getting Started
 
@@ -103,5 +94,5 @@ This prevents post-install hooks from running untrusted code. The only allowed b
 ---
 
 <div align="center">
-  <sub>Built with care by the PulsarOS team.</sub>
+  <sub>Website built by humans using free ai tools</sub>
 </div>
