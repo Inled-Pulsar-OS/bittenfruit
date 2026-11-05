@@ -1,5 +1,31 @@
 ---
-const PLACEHOLDER_POSTER = "/assets/desktop.png";
+const phoneFeatures = [
+  {
+    title: "Transfer files",
+    description: "Send files from phone to PC and vice versa without cables or complex software.",
+    icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "PC filesystem",
+    description: "Mount your PC's filesystem on your phone and access all files directly.",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+  },
+  {
+    title: "Terminal access",
+    description: "Use your PC terminal from your phone, run commands anywhere, anytime.",
+    icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "Clipboard & notifications",
+    description: "Share clipboard and notifications between phone and PC seamlessly.",
+    icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
+  },
+  {
+    title: "Screen control",
+    description: "View and share screens, control PC apps like mobile apps with one click.",
+    icon: "M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z",
+  },
+];
 ---
 
 <section
@@ -33,24 +59,30 @@ const PLACEHOLDER_POSTER = "/assets/desktop.png";
       one-click phone VPN, and run phone apps natively on your PC. No more apps, no more friction.
     </p>
 
-    <!-- Video placeholder centered -->
-    <div class="flex justify-center">
-      <figure
-        class="rounded-[32px] overflow-hidden border border-neutral-200 bg-black aspect-video w-full max-w-[640px] shadow-xl relative group"
-      >
-        <video
-          src={PLACEHOLDER_POSTER}
-          poster={PLACEHOLDER_POSTER}
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="metadata"
-          aria-label="Pulsar Phone demo"
-          class="w-full h-full object-cover object-center"
-        ></video>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-      </figure>
+    <!-- Features grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-14">
+      {phoneFeatures.map((feature, index) => (
+        <div class="gsap-bento-card flex flex-col items-start text-left">
+          <div
+            class="size-11 rounded-[var(--radius-md)] bg-primary/10 text-primary flex items-center justify-center mb-5"
+          >
+            <svg
+              class="size-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d={feature.icon} />
+            </svg>
+          </div>
+          <p class="text-on-surface-muted text-[15px] sm:text-base leading-relaxed">
+            <strong class="text-on-surface-default font-semibold">{feature.title}</strong>
+            {' '}{feature.description}
+          </p>
+        </div>
+      ))}
     </div>
   </div>
 </section>

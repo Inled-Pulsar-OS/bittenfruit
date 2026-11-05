@@ -12,25 +12,34 @@ const PLACEHOLDER_POSTER = "/assets/desktop.png";
     <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
       <!-- Texto -->
       <div class="flex-1 lg:w-[45%] flex flex-col justify-center">
-        <span class="text-primary font-semibold text-sm tracking-wide uppercase mb-4 block">
-          Pulsar Windows
-        </span>
-        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#1d1d1f] mb-6 leading-tight">
-         Run Windows apps as native without emulation
-        </h2>
+        <!-- Logo above text -->
+      <div class="flex justify-center mb-4">
+        <img
+          src="https://hosted.inled.es/cdn/pulsar-windows-logo.svg"
+          alt="Pulsar Windows logo"
+          class="w-20 h-20 sm:w-24 sm:h-24 rounded-md object-contain"
+        />
+      </div>
+
+      <span class="text-primary font-semibold text-sm tracking-wide uppercase mb-4 block">
+        Pulsar Windows
+      </span>
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#1d1d1f] mb-6 leading-tight">
+        Run Windows apps as native without emulation
+      </h2>
         <p class="text-lg sm:text-xl text-on-surface-muted leading-relaxed mb-10 max-w-lg">
           Run a real Windows system with one click while still using Windows apps on Pulsar OS, and they run on Windows, only they show up on Pulsar OS as native, without headaches. Additionally, you can use Tiny11, an open source Windows 11 (the iso build script is open source) that consumes less resources
         </p>
       </div>
 
-      <!-- Video placeholder -->
+      <!-- Demo video -->
       <div class="flex-1 lg:w-[55%] flex justify-center items-center">
         <figure
           class="rounded-[32px] overflow-hidden border border-neutral-200 bg-black aspect-video w-full shadow-xl relative group"
         >
           <video
-            src={PLACEHOLDER_VIDEO}
-            poster={PLACEHOLDER_POSTER}
+            src="https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4"
+            poster="https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4"
             autoplay
             loop
             muted
