@@ -104,6 +104,16 @@ const faqSchema = {
 		</div>
 
 		<script>
+			import { initAssetSpinners, cleanupAssetSpinners } from '@/lib/asset-spinner';
+
+			document.addEventListener('astro:page-load', initAssetSpinners);
+			document.addEventListener('astro:before-swap', cleanupAssetSpinners);
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initAssetSpinners);
+			} else {
+				initAssetSpinners();
+			}
+
 			function initSmoothAnchors() {
 				document.addEventListener('click', (e) => {
 					const target = e.target as HTMLElement | null;

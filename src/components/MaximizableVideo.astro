@@ -1,0 +1,152 @@
+---
+interface Props {
+  src: string;
+  poster?: string;
+  ariaLabel?: string;
+  videoId?: string;
+}
+
+const {
+  src,
+  poster,
+  ariaLabel = "Video demo",
+  videoId,
+} = Astro.props;
+
+const lightboxId = videoId || `lb-${ariaLabel.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<article class="relative group overflow-hidden rounded-[32px] border border-neutral-200 bg-black aspect-video w-full shadow-xl max-w-[640px]">
+  <video
+    src={src}
+    poster={poster || undefined}
+    autoplay
+    loop
+    muted
+    playsinline
+    preload="metadata"
+    aria-label={ariaLabel}
+    data-video-id={lightboxId}
+    class="w-full h-full object-cover object-center"
+  ></video>
+
+  <!-- Overlay gradiente sutil en hover -->
+  <div
+    class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+  ></div>
+
+  <!-- Boton central Maximizar (solo hover) -->
+  <button
+    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 w-full h-full"
+    data-action="maximize"
+    data-target={lightboxId}
+    aria-label={`Maximizar ${ariaLabel}`}
+  >
+    <div class="w-14 h-14 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white shadow-lg transition-transform duration-300 hover:scale-110 border border-white/10">
+      <i class="fa-solid fa-expand text-2xl"></i>
+    </div>
+  </button>
+</article>
+
+<!-- Lightbox / Maximizado -->
+<div
+  id={lightboxId}
+  class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black"
+  aria-hidden="true"
+  data-lightbox={lightboxId}
+>
+  <!-- Overlay de cierre (cubre toda la pantalla) -->
+  <button
+    class="absolute inset-0 w-full h-full z-0"
+    data-action="close"
+    data-target={lightboxId}
+    aria-label="Cerrar video"
+  ></button>
+
+  <!-- Contenedor del video centrado -->
+  <div class="relative z-10 w-full max-w-[90vw] max-h-[90vh] flex items-center justify-center">
+    <video
+      src={src}
+      poster={poster || undefined}
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="metadata"
+      class="w-full h-full max-w-[90vw] max-h-[85vh] object-contain object-center rounded-[24px] border border-white/20 bg-black shadow-2xl"
+    ></video>
+
+    <!-- Boton central CERRAR -->
+    <button
+      class="absolute -top-3 -right-3 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white shadow-xl transition-colors hover:bg-white/20 border border-white/10"
+      data-action="close"
+      data-target={lightboxId}
+      aria-label="Cerrar video"
+    >
+      <i class="fa-solid fa-times text-lg"></i>
+    </button>
+  </div>
+</div>
+
+<script>
+  // Fixed overlays need to sit at body level: nested inside a `z-10` wrapper
+  // their z-index is capped, so surrounding page content paints on top.
+  function mountLightboxes() {
+    document.querySelectorAll<HTMLElement>('[data-lightbox]').forEach((lightbox) => {
+      if (lightbox.parentElement !== document.body) {
+        document.body.appendChild(lightbox);
+      }
+    });
+  }
+
+  mountLightboxes();
+  document.addEventListener('astro:page-load', mountLightboxes);
+
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement | null)?.closest<HTMLButtonElement>('button[data-action]');
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const targetId = btn.dataset.target;
+    if (!targetId) return;
+    const lightbox = document.getElementById(targetId);
+    if (!lightbox) return;
+
+    if (action === 'maximize') {
+      e.stopPropagation();
+      lightbox.classList.remove('hidden');
+      const video = lightbox.querySelector('video');
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    if (action === 'close') {
+      lightbox.classList.add('hidden');
+      const video = lightbox.querySelector('video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('[data-lightbox]').forEach((lb) => {
+        if (!lb.classList.contains('hidden')) {
+          lb.classList.add('hidden');
+          const video = lb.querySelector('video');
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
+</script>

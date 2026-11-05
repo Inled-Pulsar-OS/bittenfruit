@@ -1,14 +1,6 @@
-import type {
-  FAQItem,
-  VideoFeature,
-  CloudProvider,
-  EcosystemCard,
-  EditionCard,
-  StoryFeature,
-  BentoCard,
-} from '@/types';
+import type { FAQItem, VideoFeature, CloudProvider, EditionCard } from '@/types';
 
-
+/** Site-wide strings and links. Edit these to change the brand copy. */
 export const SITE_CONFIG = {
   name: "PulsarOS Bitten Fruit",
   edition: "Bitten Fruit Edition",
@@ -22,6 +14,7 @@ export const SITE_CONFIG = {
   license: "MIT-INLED",
 } as const;
 
+/** FAQ section + JSON-LD on every page. */
 export const FAQS: FAQItem[] = [
   {
     question: "What makes Pulsar OS different from other Linux distributions?",
@@ -41,6 +34,7 @@ export const FAQS: FAQItem[] = [
   },
 ];
 
+/** Cloud provider pills in the Finder / cloud providers section. */
 export const CLOUD_PROVIDERS: CloudProvider[] = [
   { name: "iCloud", logo: "/logos/providers/icloud.svg" },
   { name: "Google Drive", logo: "/logos/providers/googledrive.svg" },
@@ -52,266 +46,122 @@ export const CLOUD_PROVIDERS: CloudProvider[] = [
   { name: "Mega", logo: "/logos/providers/mega.svg" },
 ];
 
-export const INTELLIGENCE_FEATURES: VideoFeature[] = [
-  {
-    title: "Session Restore",
-    subtitle: "Continuity",
-    description: "Reboot or power on, and every app, window, and document reopens on its own. Pick up right where you left off.",
-    video: "/videos/session-restore.mp4",
-    poster: "/assets/desktop.png",
-    badge: "Continuity",
+/**
+ * Feature gallery, in page order. Each entry is one block: title, description,
+ * video (or image) and an optional poster. Add, remove or reorder freely.
+ */
+export const GALLERY_FEATURES: VideoFeature[] = [
+    {
+    title: "Touch & Face ID",
+    description: "Touch ID and Face ID, with protection against identity theft",
+    video: "https://hosted.inled.es/cdn/pulsar-demo-touch-face-id.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-demo-touch-face-id.mp4",
   },
-  {
-    title: "Sayri AI Assistant",
-    subtitle: "Privacy First",
-    description: "An intelligent assistant that runs local models of your choice. Completely private, fast, and secure on your hardware.",
-    video: "/videos/sayri.mp4",
-    poster: "/assets/spotlight.png",
-    logo: "/logos/sayri.webp",
-    badge: "Local AI",
+    {
+    title: "Live Wallpapers",
+    description: "Live wallpapers on the desktop and login screen. Lock screen support in progress.",
+    video: "https://hosted.inled.es/cdn/pulsar-live-wallpaper-supra-demo.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-live-wallpaper-supra-demo.mp4",
   },
-];
-
-export const STORY_FEATURES: StoryFeature[] = [
-  {
-    id: "session-restore",
-    stepNumber: "01",
-    category: "Continuity",
-    title: "Session Restore",
-    description: "Reboot or power on, and every application, window arrangement, and open document reopens instantly where you left off.",
-    video: "/videos/session-restore.mp4",
-    poster: "/assets/desktop.png",
+    {
+    title: "Liquid Glass",
+    description: "A gorgeous, translucent material design that flows across the UI. Depth, light, and refinement in every surface. Made by our contributor Angelo, expert in UI",
+    video: "https://hosted.inled.es/cdn/pulsar-liquid-glass-pulsar-demos.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-liquid-glass-pulsar-demos.mp4",
   },
-  {
-    id: "sayri-ai",
-    stepNumber: "02",
-    category: "Private Intelligence",
-    title: "Sayri AI Assistant",
-    description: "Ask in plain language and it gets things done on your computer. 100% private, no telemetry, no cloud lock-in.",
-    video: "/videos/sayri.mp4",
-    poster: "/assets/spotlight.png",
+    {
+    title: "Notch",
+    description: "What you always wanted from the notch on your MacOS, and you had to install a thousand plugins, here it is all in one.",
+    video: "https://hosted.inled.es/cdn/pulsaros-notch-pulsar-demos.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsaros-notch-pulsar-demos.mp4",
   },
-  {
-    id: "spotlight-search",
-    stepNumber: "03",
-    category: "Search & Action",
-    title: "Spotlight Search",
-    description: "Command center for your machine. Search files, launch applications, calculate math, check clipboard history, or trigger system scripts.",
-    video: "/videos/spotlight.mp4",
-    poster: "/assets/spotlight.png",
-  },
-  {
-    id: "window-management",
-    stepNumber: "04",
-    category: "Workspaces",
-    title: "Window Management",
-    description: "Split view, Mission Control gestures, full screen on dynamic workspaces, and fluid window snapping built for power users.",
-    video: "/videos/window-mode.mp4",
-    poster: "/assets/desktop.png",
-  },
-  {
-    id: "finder-clouds",
-    stepNumber: "05",
-    category: "Files & Cloud",
-    title: "Finder, Rebuilt",
-    description: "The file manager you already know: Mac-style navigation, previews, tags, and Google Drive, Dropbox, OneDrive, Nextcloud and 50+ cloud providers right where your files live.",
-    video: "/videos/nautilus-providers.mp4",
-    poster: "/assets/finder.png",
-  },
-  {
-    id: "circle-to-search",
-    stepNumber: "06",
-    category: "Search & Action",
+    {
     title: "Circle to Search",
     description: "Shake the cursor, circle anything on your screen and search it on Google, ask Sayri about it, or grab the text with OCR.",
     video: "/videos/circle-to-search.mp4",
     poster: "/assets/desktop.png",
   },
   {
-    id: "app-store",
-    stepNumber: "07",
-    category: "Apps",
+    title: "Pulsar Firewall",
+    description: "Pulsaros has UFW by default. The only firewall interfaze that's actually easy to configure. When an app tries to listen on a port, Pulsar asks you so you dont have to fight with firewall settings",
+    video: "https://hosted.inled.es/cdn/pulsar-firewall-pulsar-demos.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-firewall-pulsar-demos.mp4",
+  },
+  {
+    title: "Real Global Menu",
+    description: "No Linux distro has this on GNOME. A true global menu bar at the top of the screen, just like macOS, for every app.",
+    video: "https://hosted.inled.es/cdn/pulsar-global-menu-pulsar-demos.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-global-menu-pulsar-demos.mp4",
+  },
+  {
+    title: "Pulsar VPN",
+    description: "Forget the headache of Wireguard: Pulsar OS comes with a simple interface for Tailscale, just log in and go",
+    video: "https://hosted.inled.es/cdn/pulsar-vpn-static-pulsar-demos.png",
+    poster: "https://hosted.inled.es/cdn/pulsar-vpn-static-pulsar-demos.png",
+  },
+  {
+    title: "Pulsar Windows",
+    description: "Windows apps as native apps on desktop. Below, a real Windows consuming as little as possible. You don't need to activate Windows to use it.",
+    video: "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4",
+  },
+  {
+    title: "The Best Spotlight",
+    description: "Say goodbye to the shitty spotlight that Apple created for the latest macOS. This spotlight is smart and can do a lot more things than the macOS one.",
+    video: "https://hosted.inled.es/cdn/pulsar-spotlight-pulsaros-demos.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-spotlight-pulsaros-demos.mp4",
+  },
+  {
+    title: "Session Restore",
+    description: "Reboot or power on, and every app, window, and document reopens on its own. Pick up right where you left off. No Linux distro does this",
+    video: "/videos/session-restore.mp4",
+    poster: "/assets/desktop.png",
+  },
+  {
+    title: "Sayri AI Assistant",
+    description: "The safe, less expensive and functional alternative to Openclaw! try it now",
+    video: "/videos/sayri.mp4",
+    poster: "/assets/spotlight.png",
+  },
+  {
+    title: "Window Management",
+    description: "Split view, Mission Control gestures, full screen on dynamic workspaces, and fluid window snapping built for power users.",
+    video: "/videos/window-mode.mp4",
+    poster: "/assets/desktop.png",
+  },
+  {
+    title: "Finder, Rebuilt",
+    description: "The file manager you already know: Mac-style navigation, previews, tags, and Google Drive, Dropbox, OneDrive, Nextcloud and 50+ cloud providers right where your files live.",
+    video: "/videos/nautilus-providers.mp4",
+    poster: "/assets/finder.png",
+  },
+  {
     title: "App Store",
-    description: "Install any app, however it is packaged: Flathub, .deb, pacman, AUR. Search, click, done — no terminal, no reading forums at midnight.",
-    video: "/videos/app-store.mp4",
-    poster: "/assets/finder.png",
+    description: "Install any package (pkg, deb, aur, gnome extension, pulsar store), ask AI for security of an app and ask it what is the best app you need.",
+    video: "https://hosted.inled.es/cdn/appinstall-pulsar-pulsaros-demo-OK.mp4",
+    poster: "https://hosted.inled.es/cdn/appinstall-pulsar-pulsaros-demo-OK.mp4",
   },
   {
-    id: "pulsar-store",
-    stepNumber: "08",
-    category: "Apps",
-    title: "Pulsar Store",
-    description: "A curated store of apps built by the PulsarOS community itself, updated with every system release.",
-    video: "/videos/pulsar-store.mp4",
-    poster: "/assets/finder.png",
-  },
-  {
-    id: "time-machine",
-    stepNumber: "09",
-    category: "Continuity",
     title: "Time Machine",
     description: "Copies of your whole system, stored wherever you like: a network server, one of the 50 cloud providers, or a USB stick. If your computer ever breaks, put everything back.",
     video: "/videos/time-machine.mp4",
     poster: "/assets/desktop.png",
   },
   {
-    id: "recovery",
-    stepNumber: "10",
-    category: "Continuity",
     title: "Recovery, Built In",
-    description: "Repair, reset or roll back the system from recovery: over the internet, even if it won't start, or from a USB stick. No reinstalling from scratch.",
+    description: "The only Linux distribution with an isolated recovery system, specifically designed for the most extreme cases, so you can recover your computer, your data and your system without losing files",
     video: "/videos/recovery.mp4",
     poster: "/assets/select-disk.png",
-  },
-];
-
-// Texts and structure mirror the "Connected everywhere" ecosystem section on https://os.inled.es/bitten-fruit/
-export const BENTO_CARDS: BentoCard[] = [
-  {
-    id: "ultos",
-    title: "UltOS",
-    description: "Run real macOS on this same computer, downloaded straight from Apple's own servers. No hassle.",
-    logo: "https://hosted.inled.es/cdn/ultimateos-macos-macboat.png",
-  },
-  {
-    id: "winboat",
-    title: "WinBoat",
-    description: "Windows apps open as normal windows on your desktop. A real Windows underneath, without the awkwardness.",
-    logo: "https://hosted.inled.es/winboat_logo.NqN8dmd9.svg",
-  },
-  {
-    id: "droidtux",
-    title: "DroidTux",
-    description: "Android apps run as desktop windows. Your phone's apps, on your big screen.",
-    logo: "https://hosted.inled.es/droidtux.png",
-  },
-  {
-    id: "gsconnect",
-    title: "GSConnect",
-    description: "Notifications, file sharing, and remote control. Your phone and desktop, unified.",
-    logo: "https://hosted.inled.es/gsconnect.png",
-  },
-];
-
-export const VIDEO_SHOWCASES: VideoFeature[] = [
-  {
-    title: "Spotlight Search",
-    subtitle: "Command center for your system.",
-    description: "Instantly launch applications, search documents, inspect clipboard history, or uninstall software from one search bar.",
-    video: "/videos/spotlight.mp4",
-    poster: "/assets/spotlight.png",
-  },
-  {
-    title: "Window Management",
-    subtitle: "Full macOS windowing experience.",
-    description: "Split view, Mission Control, full screen on new workspaces, and seamless desktop space management.",
-    video: "/videos/window-mode.mp4",
-    poster: "/assets/desktop.png",
-  },
-  {
-    title: "App Store",
-    subtitle: "Thousands of apps, zero commands.",
-    description: "Browse and install applications from Flathub, AUR, pacman, and apt with a unified store interface.",
-    video: "/videos/app-store.mp4",
-    poster: "/assets/finder.png",
   },
   {
     title: "Keyboard Remap",
-    subtitle: "Mac shortcuts or Linux ones, your call.",
     description: "Are you more of a Mac universe or do you prefer to keep the Linux and Windows commands? No problem: change all shortcuts from Mac to Linux and vice versa.",
     video: "/videos/remap-live-wallpaper.mp4",
     poster: "/assets/quick-setting.png",
-    videoRange: { mode: 'head', offsetFromEnd: 6 },
-  },
-  {
-    title: "Live Wallpapers",
-    subtitle: "Wallpapers that move with time.",
-    description: "Live wallpapers on the desktop and login screen. Lock screen support in progress.",
-    video: "/videos/remap-live-wallpaper.mp4",
-    poster: "/assets/quick-setting.png",
-    videoRange: { mode: 'tail', offsetFromEnd: 6 },
-  },
-  {
-    title: "Finder, Rebuilt",
-    subtitle: "Your clouds, in the file manager.",
-    description: "Mac-style navigation, previews, tags, and Google Drive, Dropbox, OneDrive, Nextcloud and 50+ cloud providers right where your files live.",
-    video: "/videos/nautilus-providers.mp4",
-    poster: "/assets/finder.png",
-  },
-  {
-    title: "Circle to Search",
-    subtitle: "Circle anything on screen.",
-    description: "Shake the cursor, circle anything and search it on Google, ask Sayri about it, or grab the text with OCR.",
-    video: "/videos/circle-to-search.mp4",
-    poster: "/assets/desktop.png",
-  },
-  {
-    title: "Pulsar Store",
-    subtitle: "Community-built apps.",
-    description: "A curated store of apps built by the PulsarOS community itself, updated with every system release.",
-    video: "/videos/pulsar-store.mp4",
-    poster: "/assets/finder.png",
-  },
-  {
-    title: "Time Machine",
-    subtitle: "Your whole system, backed up.",
-    description: "Full system copies on a network server, one of the 50 cloud providers, or a USB stick. Restore everything if your computer ever breaks.",
-    video: "/videos/time-machine.mp4",
-    poster: "/assets/desktop.png",
-  },
-  {
-    title: "Recovery, Built In",
-    subtitle: "Repair without reinstalling.",
-    description: "Repair, reset or roll back the system from recovery: over the internet, even if it won't start, or from a USB stick.",
-    video: "/videos/recovery.mp4",
-    poster: "/assets/select-disk.png",
   },
 ];
 
-export const GALLERY_FEATURES: VideoFeature[] = [
-  ...INTELLIGENCE_FEATURES,
-  ...STORY_FEATURES.map((f) => ({
-    title: f.title,
-    subtitle: f.category,
-    description: f.description,
-    video: f.video,
-    poster: f.poster,
-  })),
-  ...VIDEO_SHOWCASES,
-].filter((f, i, all) => all.findIndex((o) => o.title === f.title) === i);
-
-export const ECOSYSTEM: EcosystemCard[] = [
-  {
-    name: "MacBoat",
-    headline: "Real macOS, on your computer",
-    description: "Run macOS downloaded straight from Apple's own servers. Everything is ready from the first start, no hassle.",
-    tag: "macOS Integration",
-    logo: "/logos/macboat.webp",
-  },
-  {
-    name: "WinBoat",
-    headline: "Windows apps as normal windows",
-    description: "Your Windows apps open right on your desktop, without the awkwardness.",
-    tag: "Windows Apps",
-    logo: "/logos/winboat.svg",
-  },
-  {
-    name: "DroidTux",
-    headline: "Android apps on desktop",
-    description: "Run mobile Android applications side-by-side with full keyboard, trackpad, and touch support.",
-    tag: "Android Apps",
-    logo: "/logos/droidtux.webp",
-  },
-  {
-    name: "GSConnect",
-    headline: "Universal device sync",
-    description: "Instant notification sync, shared clipboard, SMS integration, and trackpad remote between your phone and PC.",
-    tag: "iOS & Android",
-    logo: "/logos/gsconnect.webp",
-  },
-];
-
-// Texts mirror the "Choose your edition" section on https://os.inled.es/bitten-fruit/
+/** Texts mirror the "Choose your edition" section on https://os.inled.es/bitten-fruit/ */
 export const EDITIONS: EditionCard[] = [
   {
     name: "Debian Edition",
@@ -329,4 +179,5 @@ export const EDITIONS: EditionCard[] = [
   },
 ];
 
-export const RELEASES_JSON_URL = "https://pulsaros-releases.pages.dev/isos.json";
+/** ISO manifest used by the editions/downloads section. */
+export const RELEASES_JSON_URL = "https://downloads-os.inled.es/isos.json";

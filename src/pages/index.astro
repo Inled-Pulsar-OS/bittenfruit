@@ -2,11 +2,10 @@
 import Layout from '@/layouts/Layout.astro';
 import HeroSection from '@/components/HeroSection.astro';
 import PinnedFeaturesSection from '@/components/PinnedFeaturesSection.astro';
-import StorySection from '@/components/StorySection.astro';
-import EcosystemSection from '@/components/EcosystemSection.astro';
+import PulsarPhoneSection from '@/components/PulsarPhoneSection.astro';
+import PulsarWindowsSection from '@/components/PulsarWindowsSection.astro';
 import CloudProvidersSection from '@/components/CloudProvidersSection.astro';
 import EditionsSection from '@/components/EditionsSection.astro';
-import VerifyIsoSection from '@/components/VerifyIsoSection.astro';
 import BenefitsSection from '@/components/BenefitsSection.astro';
 import RecoverySection from '@/components/RecoverySection.astro';
 import FAQSection from '@/components/FAQSection.astro';
@@ -18,12 +17,12 @@ import { SITE_CONFIG } from '@/config/site';
 <Layout title={`${SITE_CONFIG.name} — ${SITE_CONFIG.brandTagline}`}>
   <HeroSection />
   <PinnedFeaturesSection />
+  <PulsarPhoneSection />
+  <PulsarWindowsSection />
   <BenefitsSection />
-  <EcosystemSection />
   <EditionsSection />
   <RecoverySection />
   <CloudProvidersSection />
-  <StorySection />
   <FAQSection />
   <CommunitySection />
   <ResourcesSection />
@@ -33,7 +32,6 @@ import { SITE_CONFIG } from '@/config/site';
   import { initHeroReveal, cleanupHeroReveal } from '@/animations/hero-reveal';
   import { initHeroPullUp, cleanupHeroPullUp } from '@/animations/hero-pullup';
   import { initScrollReveal, cleanupScrollReveal } from '@/animations/scroll-reveal';
-  import { initInteractiveStory, cleanupInteractiveStory } from '@/animations/interactive-story';
   function initPage() {
     const root = document.getElementById('main-root');
     if (!root) return;
@@ -41,7 +39,6 @@ import { SITE_CONFIG } from '@/config/site';
     initHeroReveal(root);
     initHeroPullUp(root);
     initScrollReveal(root);
-    initInteractiveStory(root);
 
     document.getElementById('btn-scroll-top')?.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -52,7 +49,6 @@ import { SITE_CONFIG } from '@/config/site';
     cleanupHeroReveal();
     cleanupHeroPullUp();
     cleanupScrollReveal();
-    cleanupInteractiveStory();
   }
 
   document.addEventListener('astro:page-load', initPage);

@@ -151,3 +151,29 @@
   5%, 10% { opacity: 1; }
   12.5%, 100% { opacity: 0; }
 }
+
+/* Loading spinner shown over images/videos while they download.
+   Driven by src/lib/asset-spinner.ts, which toggles `.asset-loading` on the
+   asset's parent element. */
+.asset-loading {
+  position: relative;
+}
+
+.asset-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-neutral-100);
+  border-top-color: var(--color-primary);
+  animation: assetSpin 0.8s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes assetSpin {
+  to { transform: rotate(360deg); }
+}
