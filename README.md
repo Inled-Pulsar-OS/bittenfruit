@@ -1,6 +1,6 @@
 <div align="center">
 
-# PulsarOS
+# PulsarOS Bittenfruit website
 
 ### The MacOS experience on Linux
 
@@ -17,6 +17,10 @@
 </div>
 
 ---
+## Thanks to  
+Thanks to Victor for designing the first implementation of this website.!!  
+
+Victor develops great websites for the Rep.Dominicana Gov.
 
 ## Getting Started
 

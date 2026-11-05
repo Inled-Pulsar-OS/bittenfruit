@@ -1,6 +1,6 @@
 ---
-const PLACEHOLDER_VIDEO = "/videos/session-restore.mp4";
-const PLACEHOLDER_POSTER = "/assets/desktop.png";
+const LOGO_URL = "https://hosted.inled.es/cdn/pulsar-windows-logo.svg";
+const DEMO_VIDEO = "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4";
 ---
 
 <section
@@ -12,21 +12,20 @@ const PLACEHOLDER_POSTER = "/assets/desktop.png";
     <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
       <!-- Texto -->
       <div class="flex-1 lg:w-[45%] flex flex-col justify-center">
-        <!-- Logo aligned with text, smaller -->
-      <div class="flex items-center gap-2 mb-4">
         <img
-          src="https://hosted.inled.es/cdn/pulsar-windows-logo.svg"
+          src={LOGO_URL}
           alt="Pulsar Windows logo"
-          class="w-10 h-10 rounded-md object-contain"
+          class="w-12 h-12 sm:w-14 sm:h-14 object-contain mb-6"
+          width="56"
+          height="56"
+          loading="lazy"
         />
-        <span class="text-primary font-semibold text-sm tracking-wide uppercase">
+        <span class="text-primary font-semibold text-sm tracking-wide uppercase mb-4 block">
           Pulsar Windows
         </span>
-      </div>
-
-      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#1d1d1f] mb-6 leading-tight">
-        Run Windows apps as native without emulation
-      </h2>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#1d1d1f] mb-6 leading-tight">
+          Run Windows apps as native without emulation
+        </h2>
         <p class="text-lg sm:text-xl text-on-surface-muted leading-relaxed mb-10 max-w-lg">
           Run a real Windows system with one click while still using Windows apps on Pulsar OS, and they run on Windows, only they show up on Pulsar OS as native, without headaches. Additionally, you can use Tiny11, an open source Windows 11 (the iso build script is open source) that consumes less resources
         </p>
@@ -38,8 +37,7 @@ const PLACEHOLDER_POSTER = "/assets/desktop.png";
           class="rounded-[32px] overflow-hidden border border-neutral-200 bg-black aspect-video w-full shadow-xl relative group"
         >
           <video
-            src="https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4"
-            poster="https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4"
+            src={DEMO_VIDEO}
             autoplay
             loop
             muted

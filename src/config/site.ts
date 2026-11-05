@@ -16,6 +16,10 @@ export const SITE_CONFIG = {
 
 /** FAQ section + JSON-LD on every page. */
 export const FAQS: FAQItem[] = [
+    {
+    question: "Why I should choose Pulsar OS and not other Mac-OS like distros?",
+    answer: "Most Mac-type distributions that currently exist are either developed by a single person and only look good at first glance but then are not really usable. Others also claim to run Mac apps but are made entirely with AI.",
+  },
   {
     question: "What makes Pulsar OS different from other Linux distributions?",
     answer: "Normal Linux distributions give you only a base and a graphical environment, but many do not even add functionality and very few innovate. Pulsar OS focuses on replicating the look and, very importantly, workflow of the operating systems that people use to offer the good of Linux with the good of, in this case, macOS.",
@@ -26,7 +30,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: "Can I run macOS, Windows, and Android applications?",
-    answer: "Yes, of course, we include all the necessary applications for this.",
+    answer: "Yes, of course, we include all the necessary applications for this. For MacOS apps you have to run a full MacOS on vm with no graphics accel if you dont have an old amd or nvidia gpu, cannot be fixed, is MacOS limitation. We will work soon on MacOS app support...",
   },
   {
     question: "Does it have an App Store?",
