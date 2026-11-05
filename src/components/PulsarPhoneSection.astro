@@ -59,18 +59,18 @@ const phoneFeatures = [
       one-click phone VPN, and run phone apps natively on your PC. No more apps, no more friction.
     </p>
 
-    <!-- Features grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-14">
+    <!-- Features grid - centered -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-14 max-w-2xl mx-auto">
       {phoneFeatures.map((feature, index) => (
-        <div class="gsap-bento-card flex flex-col items-start text-left">
+        <div key={index} class="gsap-bento-card flex flex-col items-center text-center">
           <div
-            class="size-11 rounded-[var(--radius-md)] bg-primary/10 text-primary flex items-center justify-center mb-5"
+            class="size-14 rounded-[var(--radius-md)] bg-primary/10 text-primary flex items-center justify-center mb-4 w-full"
           >
             <svg
-              class="size-6"
+              class="size-8"
               fill="none"
               stroke="currentColor"
-              stroke-width="1.8"
+              stroke-width="2"
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
