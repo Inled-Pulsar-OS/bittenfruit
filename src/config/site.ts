@@ -109,6 +109,12 @@ export const GALLERY_FEATURES: VideoFeature[] = [
     video: "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4",
     poster: "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4",
   },
+   {
+    title: "File vault (encryption)",
+    description: "Encrypt your drive and protect your data, so that if your computer is stolen, they don't steal the most important thing: its content.",
+    video: "https://hosted.inled.es/cdn/pulsar-demo-encryption-pulsaros.mp4",
+    poster: "https://hosted.inled.es/cdn/pulsar-demo-encryption-pulsaros.mp4",
+  },
   {
     title: "The Best Spotlight",
     description: "Say goodbye to the shitty spotlight that Apple created for the latest macOS. This spotlight is smart and can do a lot more things than the macOS one.",
