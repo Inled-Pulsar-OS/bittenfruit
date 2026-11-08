@@ -1,5 +1,6 @@
 export interface Contributor {
   name: string;
+  role: string;
   avatar: string;
   discord: string;
   discordUser: string;
@@ -9,6 +10,7 @@ export interface Contributor {
 export const CONTRIBUTORS: Contributor[] = [
   {
     name: "JaimeGH",
+    role: "Main Developer and Founder",
     avatar: "https://avatars.githubusercontent.com/u/200265524?v=4",
     discord: "https://discord.com/users/1383822429851222150",
     discordUser: "jaimegh_es",
@@ -16,6 +18,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Victor Jesús Rosario Vásquez (a.k.a. Victor1890)",
+    role: "App Dev",
     avatar: "/assets/people/victor1890.png",
     discord: "https://discord.com/users/1111731625663926382",
     discordUser: "vitico1890",
@@ -23,6 +26,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Gautamvir Singh (a.k.a. hhh)",
+    role: "Desktop Dev",
     avatar: "/assets/people/hhh.png",
     discord: "https://discord.com/users/1237308179566690345",
     discordUser: "hhh092470",
@@ -30,6 +34,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Angelo Mario Pavia",
+    role: "Expert UI Dev",
     avatar: "https://avatars.githubusercontent.com/u/332994032?v=4",
     discord: "https://discord.com/users/1387653470928240801",
     discordUser: "Agnell0_",
@@ -37,6 +42,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Abdul Baseer",
+    role: "New collaborator, UI improvement",
     avatar: "https://avatars.githubusercontent.com/u/118005568?v=4",
     discord: "https://discord.com/users/1461783723048440024",
     discordUser: "D A R K 2.0",

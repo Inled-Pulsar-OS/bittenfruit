@@ -34,8 +34,15 @@ import { CONTRIBUTORS } from '@/config/contributors';
             />
             <div class="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
           </a>
-          <div class="font-display text-[17px] sm:text-[20px] font-semibold tracking-tight text-on-surface-default text-center max-w-[220px] break-words leading-snug">
-            {person.name}
+          <div class="flex flex-col items-center">
+            <div class="font-display text-[17px] sm:text-[20px] font-semibold tracking-tight text-on-surface-default text-center max-w-[220px] break-words leading-snug">
+              {person.name}
+            </div>
+            {person.role && (
+              <span class="text-xs sm:text-[13px] font-medium text-on-surface-muted text-center mt-1 max-w-[220px]">
+                {person.role}
+              </span>
+            )}
           </div>
           <div class="flex items-center gap-3">
             <a
@@ -51,7 +58,7 @@ import { CONTRIBUTORS } from '@/config/contributors';
               href={person.github}
               target="_blank"
               rel="noopener noreferrer"
-              class="w-10 h-10 rounded-full bg-neutral-100 border border-neutral-200 flex items-center justify-center text-on-surface-muted transition-colors hover:text-primary hover:border-primary/30"
+              class="w-10 h-10 rounded-full bg-[#24292e] flex items-center justify-center text-white text-lg transition-colors hover:bg-black shadow-sm"
               aria-label={`${person.name} on GitHub`}
             >
               <i class="fa-brands fa-github"></i>
