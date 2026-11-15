@@ -1,11 +1,18 @@
 ---
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
+
 const LOGO_URL = "https://hosted.inled.es/cdn/pulsar-windows-logo.svg";
-const DEMO_VIDEO = "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4";
+const DEMO_VIDEO = "/videos/pulsar-windows.webm";
+const DEMO_POSTER = "/videos/pulsar-windows.webp";
 ---
 
 <section
   id="pulsar-windows"
-  aria-label="Pulsar Windows"
+  aria-label={t.windows.aria}
   class="relative bg-[#f5f5f7] text-[#1d1d1f] border-t border-neutral-100 overflow-hidden py-24 sm:py-36"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -14,20 +21,20 @@ const DEMO_VIDEO = "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4"
       <div class="flex-1 lg:w-[45%] flex flex-col justify-center">
         <img
           src={LOGO_URL}
-          alt="Pulsar Windows logo"
+          alt={t.windows.logoAlt}
           class="w-12 h-12 sm:w-14 sm:h-14 object-contain mb-6"
           width="56"
           height="56"
           loading="lazy"
         />
         <span class="text-primary font-semibold text-sm tracking-wide uppercase mb-4 block">
-          Pulsar Windows
+          {t.windows.eyebrow}
         </span>
         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#1d1d1f] mb-6 leading-tight">
-          Run Windows apps as native without emulation
+          {t.windows.title}
         </h2>
         <p class="text-lg sm:text-xl text-on-surface-muted leading-relaxed mb-10 max-w-lg">
-          Run a real Windows system with one click while still using Windows apps on Pulsar OS, and they run on Windows, only they show up on Pulsar OS as native, without headaches. Additionally, you can use Tiny11, an open source Windows 11 (the iso build script is open source) that consumes less resources
+          {t.windows.body}
         </p>
       </div>
 
@@ -38,12 +45,13 @@ const DEMO_VIDEO = "https://hosted.inled.es/cdn/pulsar-windows-pulsar-demos.mp4"
         >
           <video
             src={DEMO_VIDEO}
-            autoplay
+            poster={DEMO_POSTER}
             loop
             muted
             playsinline
-            preload="metadata"
-            aria-label="Pulsar Windows demo"
+            preload="none"
+            aria-label={t.windows.demoAria}
+            data-demo-video
             class="w-full h-full object-cover object-center"
           ></video>
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

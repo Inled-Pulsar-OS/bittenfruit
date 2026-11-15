@@ -1,20 +1,10 @@
 ---
-import type { FAQItem } from '@/types';
-import { FAQS, SITE_CONFIG } from '@/config/site';
+import { SITE_CONFIG } from '@/config/site';
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
 
-interface Props {
-  badge?: string;
-  title?: string;
-  subtitle?: string;
-  items?: FAQItem[];
-}
-
-const {
-  badge = "Questions? Answers.",
-  title = "Frequently Asked Questions",
-  subtitle = "Everything you need to know about PulsarOS Bitten Fruit edition.",
-  items = FAQS
-} = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 ---
 
 <section id="faq-section" class="py-24 sm:py-36 bg-surface-default text-on-surface-default px-4 sm:px-6 border-t border-neutral-100">
@@ -23,18 +13,18 @@ const {
     <!-- Section Header -->
     <div class="mb-16">
       <span class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-primary mb-3 block">
-        {badge}
+        {t.faq.badge}
       </span>
       <h2 class="text-4xl sm:text-6xl font-bold font-display tracking-tight text-on-surface-default leading-tight">
-        {title}
+        {t.faq.title}
       </h2>
       <p class="mt-4 text-lg sm:text-xl text-on-surface-muted max-w-2xl font-normal leading-relaxed">
-        {subtitle}
+        {t.faq.subtitle}
       </p>
     </div>
 
     <div class="border-t border-b border-neutral-100 divide-y divide-neutral-100">
-      {items.map((item, index) => (
+      {t.faq.items.map((item, index) => (
         <details 
           name="faq-accordion"
           data-faq-item
@@ -65,11 +55,8 @@ const {
     <!-- Community callout: social links from os.inled.es -->
     <div class="mt-16 pt-8 border-t border-neutral-100">
       <div class="text-center max-w-2xl mx-auto mb-10">
-        <h3 class="text-2xl sm:text-3xl font-semibold text-on-surface-default font-display">Talk to the humans behind it</h3>
-        <p class="text-sm sm:text-base text-on-surface-muted mt-3 leading-relaxed">
-          Stuck installing? Curious about something? Just want to say hi?
-          <strong class="text-on-surface-default">Our community is friendly and we are around every day</strong> — for any doubt you may have, someone will answer.
-        </p>
+        <h3 class="text-2xl sm:text-3xl font-semibold text-on-surface-default font-display">{t.faq.talkTitle}</h3>
+        <p class="text-sm sm:text-base text-on-surface-muted mt-3 leading-relaxed" set:html={t.faq.talkBodyHtml} />
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -79,7 +66,7 @@ const {
           </span>
           <span>
             <span class="block font-display font-semibold text-on-surface-default">Discord</span>
-            <span class="block text-sm text-on-surface-muted">The busiest room. English and Spanish.</span>
+            <span class="block text-sm text-on-surface-muted">{t.faq.discordDesc}</span>
           </span>
         </a>
 
@@ -89,7 +76,7 @@ const {
           </span>
           <span>
             <span class="block font-display font-semibold text-on-surface-default">Telegram</span>
-            <span class="block text-sm text-on-surface-muted">Quick questions and news.</span>
+            <span class="block text-sm text-on-surface-muted">{t.faq.telegramDesc}</span>
           </span>
         </a>
 
@@ -99,7 +86,7 @@ const {
           </span>
           <span>
             <span class="block font-display font-semibold text-on-surface-default">Matrix</span>
-            <span class="block text-sm text-on-surface-muted">Open and lightweight, for the curious.</span>
+            <span class="block text-sm text-on-surface-muted">{t.faq.matrixDesc}</span>
           </span>
         </a>
 
@@ -109,13 +96,13 @@ const {
           </span>
           <span>
             <span class="block font-display font-semibold text-on-surface-default">GitHub</span>
-            <span class="block text-sm text-on-surface-muted">Peek at how it is all made.</span>
+            <span class="block text-sm text-on-surface-muted">{t.faq.githubDesc}</span>
           </span>
         </a>
       </div>
 
       <p class="text-center text-sm text-on-surface-muted mt-8">
-        Prefer to check it yourself? <a class="text-secondary hover:underline font-medium" href={SITE_CONFIG.githubUrl} target="_blank" rel="noopener">Audit the code</a> — every line is public.
+        {t.faq.auditBefore} <a class="text-secondary hover:underline font-medium" href={SITE_CONFIG.githubUrl} target="_blank" rel="noopener">{t.faq.auditLink}</a> {t.faq.auditAfter}
       </p>
     </div>
 

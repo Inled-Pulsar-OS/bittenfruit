@@ -1,12 +1,16 @@
 ---
-// Floating control bar (Scroll to Top)
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 ---
 
-<aside aria-label="Quick Actions" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-surface-elevated/90 backdrop-blur-xl border border-neutral-100 px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 text-xs font-text select-none">
+<aside aria-label={t.floating.aria} class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-surface-elevated/90 backdrop-blur-xl border border-neutral-100 px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 text-xs font-text select-none">
   <span class="font-semibold flex items-center gap-2">
     <span class="size-2.5 rounded-full bg-primary animate-pulse" aria-hidden="true"></span>
-    PulsarOS Bittenfruit
+    {t.floating.brand}
   </span>
   <span class="text-on-surface-muted" aria-hidden="true">|</span>
-  <button id="btn-scroll-top" type="button" aria-label="Scroll to top of page" class="text-on-surface-muted hover:text-on-surface-default transition-colors font-medium cursor-pointer">Scroll to Top</button>
+  <button id="btn-scroll-top" type="button" aria-label={t.floating.scrollAria} class="text-on-surface-muted hover:text-on-surface-default transition-colors font-medium cursor-pointer">{t.floating.scrollTop}</button>
 </aside>

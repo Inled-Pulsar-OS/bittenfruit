@@ -1,14 +1,10 @@
 ---
 import { SITE_CONFIG } from '@/config/site';
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
 
-const PHRASES = [
-  "No reinventing the wheel",
-  "Based on users real needs",
-  "Not just another GNOME/KDE with a theme on top",
-  "No AI Slop & No AI hate - AI as help",
-  "With a real ecosystem, from phone to Windows",
-  "With direct support from the developers",
-];
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 
 // Contributors shown in the hero trust band. adilsongrima1-beep removed per request.
 const AVATARS = [
@@ -21,25 +17,19 @@ const AVATARS = [
 
 <!-- Preload instructions hoisted to head -->
 <link as="image" href="/assets/desktop.png" fetchpriority="high" slot="head" />
-<link as="video" href="/videos/session-restore.mp4" type="video/mp4" fetchpriority="high" slot="head" />
 
-<section id="hero-trigger" aria-label="Hero Overview" class="relative min-h-screen flex flex-col items-center justify-start pt-16 sm:pt-24 px-4 sm:px-6 text-center bg-surface-default border-b border-neutral-100 overflow-hidden">
-  
+<section id="hero-trigger" aria-label={t.hero.aria} class="relative min-h-screen flex flex-col items-center justify-start pt-16 sm:pt-24 px-4 sm:px-6 text-center bg-surface-default border-b border-neutral-100 overflow-hidden">
+
   <!-- Hero Text Group -->
   <header id="hero-text" class="max-w-4xl mx-auto flex flex-col items-center z-10">
 
 
-    <h1 class="gsap-reveal-hero text-5xl sm:text-7xl lg:text-8xl font-bold font-display tracking-tight text-on-surface-default leading-[1.03] mb-6 text-balance">
-      The real<br />
-      <span class="text-on-surface-default">Mac</span>
-      <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0071e3] via-[#0066cc] to-[#1d1d1f]">OS</span> experience<br />
-      on Linux
-    </h1>
+    <h1 class="gsap-reveal-hero text-5xl sm:text-7xl lg:text-8xl font-bold font-display tracking-tight text-on-surface-default leading-[1.03] mb-6 text-balance" set:html={t.hero.titleHtml} />
 
     <!-- Rotating pull-up subhead (GSAP: one phrase pulls up at a time) -->
     <div class="gsap-reveal-hero pull-up-viewport relative h-[52px] sm:h-[68px] overflow-hidden w-full mb-8">
       <div class="pull-up-track absolute inset-0 flex items-center justify-center w-full">
-        {PHRASES.map((phrase) => (
+        {t.hero.phrases.map((phrase) => (
           <div class="pull-up-item absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-[16px] sm:text-[20px] text-on-surface-muted leading-tight text-center">
             {phrase}
           </div>
@@ -47,14 +37,14 @@ const AVATARS = [
       </div>
     </div>
 
-    <div class="gsap-reveal-hero grid grid-cols-2 gap-5 w-full max-w-[420px] mb-10">
+    <div class="gsap-reveal-hero flex flex-wrap items-stretch justify-center gap-3 sm:gap-4 w-full mb-10">
       <a
         href={SITE_CONFIG.downloadsUrl}
         target="_blank"
         rel="noopener"
-        class="w-full inline-flex items-center justify-center gap-1.5 bg-[#121212] border border-white/10 text-white rounded-[32px] px-5 py-3 min-h-[44px] text-sm sm:text-base font-medium transition-colors hover:bg-white/10"
+        class="inline-flex whitespace-nowrap items-center justify-center gap-1.5 bg-[#121212] border border-white/10 text-white rounded-[32px] px-5 py-3 min-h-[56px] sm:min-h-[65px] text-sm sm:text-base font-medium transition-colors hover:bg-white/10"
       >
-        Coming Soon
+        {t.hero.comingSoon}
         <span
           class="text-[21px] sm:text-[26px] font-bold tracking-tight"
           style="background: linear-gradient(to bottom, #ffffff 0%, #1a1a1a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
@@ -66,22 +56,22 @@ const AVATARS = [
         href="https://link.inled.es/discord"
         target="_blank"
         rel="noopener noreferrer"
-        class="w-full inline-flex items-center justify-center gap-1.5 bg-[#5865f2] text-white rounded-[32px] px-5 py-3 min-h-[44px] text-sm sm:text-base font-medium transition-colors hover:bg-[#4752c4]"
-        aria-label="Join Discord"
+        class="inline-flex whitespace-nowrap items-center justify-center gap-1.5 bg-[#5865f2] text-white rounded-[32px] px-5 py-3 min-h-[56px] sm:min-h-[65px] text-sm sm:text-base font-medium transition-colors hover:bg-[#4752c4]"
+        aria-label={t.hero.discord}
       >
         <i class="fa-brands fa-discord text-[20px] sm:text-[24px]"></i>
-        Join Discord
+        {t.hero.discord}
       </a>
     </div>
 
     <!-- Community trust band -->
     <div class="gsap-reveal-hero community-band flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-      <span class="text-[15px] text-on-surface-muted">Made by the community</span>
+      <span class="text-[15px] text-on-surface-muted">{t.hero.madeBy}</span>
       <div class="avatar-stack inline-flex items-center space-x-[-3px]">
         {AVATARS.map((person) => (
           <img
             src={person.src}
-            alt={`${person.name} avatar`}
+            alt={`${person.name} ${t.hero.avatarSuffix}`}
             class="w-9 h-9 rounded-full border border-neutral-100 bg-surface-default object-cover"
             width="36"
             height="36"
@@ -91,7 +81,7 @@ const AVATARS = [
         ))}
       </div>
       <span class="text-[15px] text-on-surface-muted">
-        +1k people trust <span class="text-on-surface-default font-medium">(SourceForge stats)</span>
+        {t.hero.trust} <span class="text-on-surface-default font-medium">{t.hero.trustSource}</span>
       </span>
     </div>
   </header>

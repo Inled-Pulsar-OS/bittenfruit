@@ -1,39 +1,54 @@
 ---
 import { CONTRIBUTORS } from '@/config/contributors';
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 ---
 
 <!-- Contributors / Contribuidores -->
-<section id="community" class="py-[var(--space-xl)] px-4 sm:px-6 border-t border-neutral-100" aria-label="People behind Pulsar OS">
+<section id="community" class="py-[var(--space-xl)] px-4 sm:px-6 border-t border-neutral-100" aria-label={t.community.aria}>
   <div class="max-w-6xl mx-auto">
     <h2 class="font-display font-bold text-[34px] leading-[36px] text-on-surface-default text-center mb-3 tracking-tight">
-      The people behind it
+      {t.community.title}
     </h2>
-    <p class="text-on-surface-muted text-[17px] leading-[1.35] text-center mb-12 max-w-lg mx-auto">
-      When you contribute to Pulsar OS, no matter how, you get recognized. We are a growing team, join us! <br>
-      We are a really friendly community, no elitism, no politics or ideology, no hate and helping us together!
-    </p>
-    <p class="text-on-surface-muted text-[14px] leading-[1.35] text-center mb-12 max-w-lg mx-auto">(Listed in order of join)</p>
+    <p class="text-on-surface-muted text-[17px] leading-[1.35] text-center mb-12 max-w-lg mx-auto" set:html={t.community.bodyHtml} />
+    <p class="text-on-surface-muted text-[14px] leading-[1.35] text-center mb-12 max-w-lg mx-auto">{t.community.order}</p>
 
     <div class="flex justify-center flex-wrap gap-8 sm:gap-12 max-w-[1040px] mx-auto">
       {CONTRIBUTORS.map((person) => (
         <div class="flex flex-col items-center gap-4 cursor-default group">
-          <a
-            href={person.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="relative block"
-            aria-label={`${person.name} on GitHub`}
-          >
-            <img
-              src={person.avatar}
-              alt={`${person.name} avatar`}
-              class="w-24 h-24 sm:w-32 sm:h-32 aspect-square rounded-full object-cover object-center border border-neutral-200 bg-neutral-100 shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/50"
-              width={96}
-              height={96}
-              loading="lazy"
-            />
-            <div class="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
-          </a>
+          {person.github ? (
+            <a
+              href={person.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="relative block"
+              aria-label={`${person.name} on GitHub`}
+            >
+              <img
+                src={person.avatar}
+                alt={`${person.name} ${t.hero.avatarSuffix}`}
+                class="w-24 h-24 sm:w-32 sm:h-32 aspect-square rounded-full object-cover object-center border border-neutral-200 bg-neutral-100 shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/50"
+                width={96}
+                height={96}
+                loading="lazy"
+              />
+              <div class="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
+            </a>
+          ) : (
+            <div class="relative block">
+              <img
+                src={person.avatar}
+                alt={`${person.name} ${t.hero.avatarSuffix}`}
+                class="w-24 h-24 sm:w-32 sm:h-32 aspect-square rounded-full object-cover object-center border border-neutral-200 bg-neutral-100 shadow-sm"
+                width={96}
+                height={96}
+                loading="lazy"
+              />
+            </div>
+          )}
           <div class="flex flex-col items-center">
             <div class="font-display text-[17px] sm:text-[20px] font-semibold tracking-tight text-on-surface-default text-center max-w-[220px] break-words leading-snug">
               {person.name}
@@ -55,16 +70,18 @@ import { CONTRIBUTORS } from '@/config/contributors';
             >
               <i class="fa-brands fa-discord"></i>
             </a>
-            <a
-              href={person.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-10 h-10 rounded-full bg-[#24292e] flex items-center justify-center text-white text-lg transition-colors hover:bg-black shadow-sm"
-              style="background-color: #24292e; color: #ffffff;"
-              aria-label={`${person.name} on GitHub`}
-            >
-              <i class="fa-brands fa-github"></i>
-            </a>
+            {person.github && (
+              <a
+                href={person.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-10 h-10 rounded-full bg-[#24292e] flex items-center justify-center text-white text-lg transition-colors hover:bg-black shadow-sm"
+                style="background-color: #24292e; color: #ffffff;"
+                aria-label={`${person.name} on GitHub`}
+              >
+                <i class="fa-brands fa-github"></i>
+              </a>
+            )}
           </div>
         </div>
       ))}

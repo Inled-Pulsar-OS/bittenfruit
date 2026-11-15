@@ -1,37 +1,43 @@
 ---
 import { SITE_CONFIG } from '@/config/site';
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+import LanguageSelector from '@/components/LanguageSelector.astro';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 
 const navLinks = [
-  { label: "Overview", href: "#hero-trigger" },
-  { label: "Features", href: "#interactive-story-section" },
-  { label: "Editions", href: "#editions-section" },
-  { label: "FAQ", href: "#faq-section" },
-  { label: "App Store", href: "https://store-os.inled.es/", external: true },
-  { label: "Help", href: "https://os.inled.es/help/", external: true },
-  { label: "Report a bug", href: "https://bugme-os.inled.es/", external: true },
-  { label: "RSS", href: "https://feed-os.inled.es/", external: true },
-  { label: "Resources", href: "https://os.inled.es/resources/", external: true },
+  { label: t.nav.overview, href: '#hero-trigger' },
+  { label: t.nav.features, href: '#interactive-story-section' },
+  { label: t.nav.editions, href: '#editions-section' },
+  { label: t.nav.faq, href: '#faq-section' },
+  { label: t.nav.appStore, href: 'https://store-os.inled.es/', external: true },
+  { label: t.nav.help, href: 'https://help.inled.es/docs/pulsar-os/', external: true },
+  { label: t.nav.bug, href: 'https://bugme-os.inled.es/', external: true },
+  { label: t.nav.rss, href: 'https://feed-os.inled.es/', external: true },
+  { label: t.nav.resources, href: 'https://os.inled.es/resources/', external: true },
 ];
 ---
 
 <!-- Apple-Style Translucent Local Sub-Header -->
 <header class="sticky top-0 z-40 bg-surface-default/80 backdrop-blur-md border-b border-neutral-100 text-[13px] py-2.5 px-4 sm:px-8 transition-colors select-none font-text">
   <div class="max-w-7xl mx-auto flex items-center justify-between h-9">
-    
+
     <!-- Left: Apple-Style Product Lockup -->
-    <a href="/" aria-label="PulsarOS Bitten Fruit Home" class="flex items-center gap-2 group">
+    <a href={locale === 'en' ? '/' : `/${locale}/`} aria-label={t.nav.home} class="flex items-center gap-2 group">
       <img src="/favicon.png" alt="" class="size-6.5 object-contain group-hover:scale-105 transition-transform" aria-hidden="true" />
       <span class="font-display font-semibold text-base sm:text-lg text-on-surface-default tracking-tight group-hover:text-primary transition-colors leading-none">
         PulsarOS <span class="font-normal text-on-surface-muted font-text text-sm sm:text-base">Bitten Fruit</span>
       </span>
     </a>
 
-    <!-- Right: Desktop Navigation Links & Download CTA -->
-    <nav aria-label="Primary Navigation" class="flex items-center gap-4 sm:gap-6">
+    <!-- Right: Desktop Navigation Links, Language Selector & Download CTA -->
+    <nav aria-label={t.nav.primary} class="flex items-center gap-3 sm:gap-5">
       <div class="hidden md:flex items-center gap-6">
         {navLinks.map((link) => (
-          <a 
-            href={link.href} 
+          <a
+            href={link.href}
             target={link.external ? "_blank" : undefined}
             rel={link.external ? "noopener noreferrer" : undefined}
             class="text-on-surface-muted hover:text-on-surface-default text-[12px] font-medium transition-colors"
@@ -41,14 +47,16 @@ const navLinks = [
         ))}
       </div>
 
+      <LanguageSelector locale={locale} label={t.nav.language} pathname={Astro.url.pathname} />
+
       <!-- Apple Compact Action Pill Button -->
-      <a 
-        href={SITE_CONFIG.downloadsUrl} 
-        target="_blank" 
-        rel="noopener" 
+      <a
+        href={SITE_CONFIG.downloadsUrl}
+        target="_blank"
+        rel="noopener"
         class="bg-primary hover:bg-primary-hover text-on-surface-inverse font-medium px-3.5 py-1 rounded-full transition-colors text-[12px] shadow-none flex items-center gap-1 shrink-0"
       >
-        <span>Download ISO</span>
+        <span>{t.nav.download}</span>
       </a>
     </nav>
   </div>

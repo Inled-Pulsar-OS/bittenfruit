@@ -1,0 +1,83 @@
+---
+import { LOCALES, LOCALE_LABELS, localizePath, type Locale } from '@/i18n/config';
+
+interface Props {
+  locale: Locale;
+  label: string;
+  pathname: string;
+}
+
+const { locale, label, pathname } = Astro.props;
+---
+
+<details class="language-selector relative" data-language-selector>
+  <summary
+    class="list-none [&::-webkit-details-marker]:hidden cursor-pointer flex items-center gap-1.5 text-on-surface-muted hover:text-on-surface-default transition-colors text-[12px] font-medium rounded-full px-2.5 py-1.5 border border-neutral-100 hover:border-neutral-300"
+    aria-label={label}
+    title={label}
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M3 12h18"></path>
+      <path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"></path>
+    </svg>
+    <span class="hidden sm:inline">{LOCALE_LABELS[locale]}</span>
+    <span class="sm:hidden uppercase">{locale}</span>
+  </summary>
+
+  <ul
+    class="absolute right-0 top-full mt-2 min-w-[168px] rounded-2xl border border-neutral-100 bg-surface-default/95 backdrop-blur-xl p-1.5 shadow-lg z-50 text-[13px]"
+  >
+    {LOCALES.map((item) => (
+      <li>
+        <a
+          href={localizePath(pathname, item)}
+          hreflang={item}
+          lang={item}
+          data-set-locale={item}
+          aria-current={item === locale ? 'true' : undefined}
+          class:list={[
+            'flex items-center justify-between gap-3 rounded-xl px-3 py-2 transition-colors',
+            item === locale
+              ? 'text-on-surface-default font-semibold bg-surface-muted'
+              : 'text-on-surface-muted hover:text-on-surface-default hover:bg-surface-muted',
+          ]}
+        >
+          <span>{LOCALE_LABELS[item]}</span>
+          {item === locale && (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>
+
+<script>
+  const STORAGE_KEY = 'pulsar-locale';
+
+  function closeSelector(except?: Element | null) {
+    document.querySelectorAll<HTMLDetailsElement>('[data-language-selector]').forEach((el) => {
+      if (el !== except) el.open = false;
+    });
+  }
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    const link = target?.closest<HTMLAnchorElement>('[data-set-locale]');
+    if (link) {
+      try {
+        localStorage.setItem(STORAGE_KEY, link.dataset.setLocale || 'en');
+      } catch {
+        /* storage blocked: the URL choice still works */
+      }
+    }
+    if (!target?.closest('[data-language-selector]')) closeSelector();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeSelector();
+  });
+</script>

@@ -4,7 +4,8 @@ export interface Contributor {
   avatar: string;
   discord: string;
   discordUser: string;
-  github: string;
+  /** Optional: some contributors have no GitHub account and get no icon. */
+  github?: string;
 }
 
 export const CONTRIBUTORS: Contributor[] = [
@@ -18,7 +19,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Victor Jesús Rosario Vásquez (a.k.a. Victor1890)",
-    role: "App Dev",
+    role: "App Dev, UI & Web Expert",
     avatar: "/assets/people/victor1890.png",
     discord: "https://discord.com/users/1111731625663926382",
     discordUser: "vitico1890",
@@ -26,7 +27,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Gautamvir Singh (a.k.a. hhh)",
-    role: "Desktop Dev",
+    role: "Desktop Dev & Media Team",
     avatar: "/assets/people/hhh.png",
     discord: "https://discord.com/users/1237308179566690345",
     discordUser: "hhh092470",
@@ -47,5 +48,12 @@ export const CONTRIBUTORS: Contributor[] = [
     discord: "https://discord.com/users/1461783723048440024",
     discordUser: "D A R K 2.0",
     github: "https://github.com/Code-With-Abdul-67",
+  },
+    {
+    name: "Saintnukes",
+    role: "Media team - Expert in Adobe Suite",
+    avatar: "https://cdn.discordapp.com/avatars/812111263509250079/15b9ed0502ceb08263f6d349da0f1e96.webp?size=160",
+    discord: "https://discord.com/users/812111263509250079",
+    discordUser: "Saintnukes",
   },
 ];

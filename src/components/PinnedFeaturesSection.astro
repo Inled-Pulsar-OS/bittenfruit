@@ -1,25 +1,29 @@
 ---
-import { GALLERY_FEATURES } from '@/config/site';
 import MaximizableVideo from '@/components/MaximizableVideo.astro';
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 ---
 
 <section
   id="features-section"
-  aria-label="Pulsar OS Features"
+  aria-label={t.features.aria}
   class="relative bg-[#f5f5f7] text-[#1d1d1f] border-t border-neutral-100 overflow-hidden py-24 sm:py-36"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <header class="text-center mb-24 sm:mb-32">
       <h2 class="text-4xl sm:text-6xl font-bold font-display tracking-tight text-[#1d1d1f] mb-6 leading-tight">
-        Pulsar OS can do more than other OS!
+        {t.features.heading}
       </h2>
       <p class="text-lg sm:text-xl text-on-surface-muted max-w-2xl mx-auto leading-relaxed">
-        Discover the features that make Bitten Fruit the real MacOS experience on Linux.
+        {t.features.subheading}
       </p>
     </header>
 
     <div class="space-y-24 sm:space-y-32">
-      {GALLERY_FEATURES.map((feature, index) => (
+      {t.features.items.map((feature, index) => (
         <article
           id={`feature-${index}`}
           class={`feature-block relative flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${
@@ -36,13 +40,16 @@ import MaximizableVideo from '@/components/MaximizableVideo.astro';
             </p>
           </div>
 
-          <!-- Video con boton central de maximizar al otro lado -->
+          <!-- Media con boton central de maximizar al otro lado -->
           <div class="flex-1 lg:w-[55%] flex justify-center items-center z-10">
             <MaximizableVideo
-              src={feature.video}
+              src={feature.media}
               poster={feature.poster}
+              kind={feature.kind}
               ariaLabel={feature.title}
               videoId={`feature-video-${index}`}
+              maximizeLabel={t.lightbox.maximize}
+              closeLabel={t.lightbox.close}
             />
           </div>
         </article>
@@ -50,11 +57,3 @@ import MaximizableVideo from '@/components/MaximizableVideo.astro';
     </div>
   </div>
 </section>
-
-<style>
-  @media (prefers-reduced-motion: reduce) {
-    .feature-block video {
-      animation: none !important;
-    }
-  }
-</style>

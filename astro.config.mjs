@@ -28,6 +28,8 @@ function exportPublicJson() {
           // 2. contributors.json
           const resolvedContributors = CONTRIBUTORS.map(c => ({
             ...c,
+            // Contributors without GitHub still expose a valid URL for external apps.
+            github: c.github || 'about:blank',
             avatar: c.avatar.startsWith('http://') || c.avatar.startsWith('https://')
               ? c.avatar
               : `https://bittenfruit.inled.es${c.avatar.startsWith('/') ? '' : '/'}${c.avatar}`

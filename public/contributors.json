@@ -9,7 +9,7 @@
   },
   {
     "name": "Victor Jesús Rosario Vásquez (a.k.a. Victor1890)",
-    "role": "App Dev",
+    "role": "App Dev, UI & Web Expert",
     "avatar": "https://bittenfruit.inled.es/assets/people/victor1890.png",
     "discord": "https://discord.com/users/1111731625663926382",
     "discordUser": "vitico1890",
@@ -17,7 +17,7 @@
   },
   {
     "name": "Gautamvir Singh (a.k.a. hhh)",
-    "role": "Desktop Dev",
+    "role": "Desktop Dev & Media Team",
     "avatar": "https://bittenfruit.inled.es/assets/people/hhh.png",
     "discord": "https://discord.com/users/1237308179566690345",
     "discordUser": "hhh092470",
@@ -38,5 +38,13 @@
     "discord": "https://discord.com/users/1461783723048440024",
     "discordUser": "D A R K 2.0",
     "github": "https://github.com/Code-With-Abdul-67"
+  },
+  {
+    "name": "Saintnukes",
+    "role": "Media team - Expert in Adobe Suite",
+    "avatar": "https://cdn.discordapp.com/avatars/812111263509250079/15b9ed0502ceb08263f6d349da0f1e96.webp?size=160",
+    "discord": "https://discord.com/users/812111263509250079",
+    "discordUser": "Saintnukes",
+    "github": "about:blank"
   }
 ]

@@ -1,0 +1,61 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import HeroSection from '@/components/HeroSection.astro';
+import PinnedFeaturesSection from '@/components/PinnedFeaturesSection.astro';
+import PulsarPhoneSection from '@/components/PulsarPhoneSection.astro';
+import PulsarWindowsSection from '@/components/PulsarWindowsSection.astro';
+import CloudProvidersSection from '@/components/CloudProvidersSection.astro';
+import EditionsSection from '@/components/EditionsSection.astro';
+import BenefitsSection from '@/components/BenefitsSection.astro';
+import RecoverySection from '@/components/RecoverySection.astro';
+import FAQSection from '@/components/FAQSection.astro';
+import CommunitySection from '@/components/CommunitySection.astro';
+import ResourcesSection from '@/components/ResourcesSection.astro';
+---
+
+<Layout>
+  <HeroSection />
+  <PinnedFeaturesSection />
+  <PulsarPhoneSection />
+  <PulsarWindowsSection />
+  <BenefitsSection />
+  <EditionsSection />
+  <RecoverySection />
+  <CloudProvidersSection />
+  <FAQSection />
+  <CommunitySection />
+  <ResourcesSection />
+</Layout>
+
+<script>
+  import { initHeroReveal, cleanupHeroReveal } from '@/animations/hero-reveal';
+  import { initHeroPullUp, cleanupHeroPullUp } from '@/animations/hero-pullup';
+  import { initScrollReveal, cleanupScrollReveal } from '@/animations/scroll-reveal';
+  function initPage() {
+    const root = document.getElementById('main-root');
+    if (!root) return;
+
+    initHeroReveal(root);
+    initHeroPullUp(root);
+    initScrollReveal(root);
+
+    document.getElementById('btn-scroll-top')?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  function cleanupPage() {
+    cleanupHeroReveal();
+    cleanupHeroPullUp();
+    cleanupScrollReveal();
+  }
+
+  document.addEventListener('astro:page-load', initPage);
+  document.addEventListener('astro:before-swap', cleanupPage);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+  } else {
+    initPage();
+  }
+</script>

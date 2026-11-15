@@ -1,70 +1,35 @@
 ---
 import { SITE_CONFIG } from '@/config/site';
+import { getLocale } from '@/i18n/config';
+import { getContent, fill } from '@/i18n';
 
-const currentYear = new Date().getFullYear();
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
 
-const footerDirectory = [
-  {
-    title: "Explore PulsarOS",
-    links: [
-      { label: "Bitten Fruit Edition", href: "#overview" },
-      { label: "Session Restore", href: "#session-restore" },
-      { label: "Sayri AI Assistant", href: "#sayri-ai" },
-      { label: "Spotlight Search", href: "#spotlight-search" },
-      { label: "Control Center", href: "#window-management" },
-    ]
-  },
-  {
-    title: "Virtualization",
-    links: [
-      { label: "MacBoat (OpenCore)", href: "#connectivity" },
-      { label: "WinBoat App Runtime", href: "#connectivity" },
-      { label: "DroidTux Mobile", href: "#connectivity" },
-      { label: "GSConnect Device Sync", href: "#connectivity" },
-      { label: "Native KVM Passthrough", href: "#bento-section" },
-    ]
-  },
-  {
-    title: "Ecosystem & Apps",
-    links: [
-      { label: "App Store (Flathub & AUR)", href: "#features" },
-      { label: "55 Cloud Providers", href: "#features" },
-      { label: "Dynamic Wallpapers", href: "#bento-section" },
-      { label: "macOS Key Remapper", href: "#bento-section" },
-    ]
-  },
-  {
-    title: "Editions & Downloads",
-    links: [
-      { label: "Debian Stable Core", href: "#editions" },
-      { label: "Arch Rolling Core", href: "#editions" },
-      { label: "Download Bitten Fruit ISO", href: SITE_CONFIG.downloadsUrl, external: true },
-      { label: "Release Notes", href: SITE_CONFIG.releasesUrl, external: true },
-    ]
-  },
-  {
-    title: "Community & Values",
-    links: [
-      { label: "GitHub Repository", href: SITE_CONFIG.githubUrl, external: true },
-      { label: "Report a Bug", href: SITE_CONFIG.bugReportUrl, external: true },
-      { label: "RSS Feed", href: SITE_CONFIG.feedUrl, external: true },
-      { label: "Open Source (MIT-INLED)", href: SITE_CONFIG.githubUrl, external: true },
-      { label: "Privacy First Architecture", href: "#intelligence" },
-      { label: "Hardware Support", href: "#overview" },
-    ]
-  }
+// Hrefs stay in code, in the same order as the translated labels.
+const columnHrefs: string[][] = [
+  ['#overview', '#session-restore', '#sayri-ai', '#spotlight-search', '#window-management'],
+  ['#connectivity', '#connectivity', '#connectivity', '#connectivity', '#bento-section'],
+  ['#features', '#features', '#bento-section', '#bento-section'],
+  ['#editions', '#editions', SITE_CONFIG.downloadsUrl, SITE_CONFIG.releasesUrl],
+  [SITE_CONFIG.githubUrl, SITE_CONFIG.bugReportUrl, SITE_CONFIG.feedUrl, SITE_CONFIG.githubUrl, '#intelligence', '#overview'],
 ];
 
-const footnotesParagraphs = [
-  "1. PulsarOS Bitten Fruit is an independent open-source Linux distribution project. macOS, Mac, OpenCore, and Apple logo design elements are trademarks of Apple Inc., registered in the U.S. and other countries and regions.",
-  "2. MacOS VM doesnt have GPU acceleration!",
-];
+const footerDirectory = t.footer.columns.map((column, columnIndex) => ({
+  title: column.title,
+  links: column.links.map((label, linkIndex) => {
+    const href = columnHrefs[columnIndex]?.[linkIndex] ?? '#';
+    return { label, href, external: href.startsWith('http') };
+  }),
+}));
+
+const footnotesParagraphs = t.footer.footnotes;
 ---
 
 <!-- Apple Signature Editorial Footer -->
 <footer class="bg-surface-muted text-on-surface-muted text-[12px] leading-[1.33337] font-normal py-10 px-4 sm:px-6 border-t border-neutral-100 transition-colors font-text select-none">
   <div class="max-w-6xl mx-auto space-y-4">
-    
+
     <!-- Section 1: Footnotes Paragraph -->
     <div class="space-y-2.5 pb-4 border-b border-neutral-100 text-[11px] leading-normal text-on-surface-muted/90">
       {footnotesParagraphs.map((item, idx) => (
@@ -81,12 +46,12 @@ const footnotesParagraphs = [
         <span>PulsarOS</span>
       </a>
       <span class="text-on-surface-muted/50">›</span>
-      <span class="text-on-surface-default font-normal">{SITE_CONFIG.edition}</span>
+      <span class="text-on-surface-default font-normal">{t.footer.editionLabel}</span>
     </div>
 
     <!-- Section 3: Desktop 5-Column Directory Grid / Mobile Accordions -->
-    <nav aria-label="Footer Directory Navigation" class="py-4">
-      
+    <nav aria-label={t.footer.aria} class="py-4">
+
       <!-- Desktop Grid (md and up) -->
       <div class="hidden md:grid md:grid-cols-5 gap-8">
         {footerDirectory.map((col) => (
@@ -95,8 +60,8 @@ const footnotesParagraphs = [
             <ul class="space-y-2">
               {col.links.map((link) => (
                 <li>
-                  <a 
-                    href={link.href} 
+                  <a
+                    href={link.href}
                     target={link.external ? "_blank" : undefined}
                     rel={link.external ? "noopener noreferrer" : undefined}
                     class="hover:text-on-surface-default hover:underline transition-colors block text-[12px]"
@@ -123,8 +88,8 @@ const footnotesParagraphs = [
             <ul class="pt-2 pb-3 space-y-2.5 pl-2">
               {col.links.map((link) => (
                 <li>
-                  <a 
-                    href={link.href} 
+                  <a
+                    href={link.href}
                     target={link.external ? "_blank" : undefined}
                     rel={link.external ? "noopener noreferrer" : undefined}
                     class="hover:text-on-surface-default transition-colors block text-[12px] text-on-surface-muted"
@@ -141,26 +106,22 @@ const footnotesParagraphs = [
     </nav>
 
     <!-- Section 4: Shop / Ways to Get Action Bar -->
-    <div class="py-3 border-b border-neutral-100 text-[12px] text-on-surface-muted">
-      More ways to get PulsarOS: <a href={SITE_CONFIG.downloadsUrl} target="_blank" rel="noopener" class="text-primary hover:underline font-normal">Download Bittenfruit ISO</a> or <a href={SITE_CONFIG.githubUrl} target="_blank" rel="noopener" class="text-primary hover:underline font-normal">contribute on GitHub</a>.
-    </div>
+    <div class="py-3 border-b border-neutral-100 text-[12px] text-on-surface-muted" set:html={fill(t.footer.moreWaysHtml, { downloads: SITE_CONFIG.downloadsUrl, github: SITE_CONFIG.githubUrl })} />
 
     <!-- Section 5: Copyright & Legal Bar -->
     <div class="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] text-on-surface-muted">
-      <div>
-        First website developed by our great contributor <a href="https://www.victorrosario.dev/" target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">Victor Rosario (main design)</a>. New changes by <a href="https://jaimegh.com" target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">JaimeGH</a>
-      </div>
+      <div set:html={t.footer.creditsHtml} />
 
       <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <a href={SITE_CONFIG.githubUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">GitHub</a>
+        <a href={SITE_CONFIG.githubUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">{t.footer.legal.github}</a>
         <span>|</span>
-        <a href={SITE_CONFIG.releasesUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">Releases</a>
+        <a href={SITE_CONFIG.releasesUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">{t.footer.legal.releases}</a>
         <span>|</span>
-        <a href={SITE_CONFIG.bugReportUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">Report a Bug</a>
+        <a href={SITE_CONFIG.bugReportUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">{t.footer.legal.bug}</a>
         <span>|</span>
-        <a href={SITE_CONFIG.feedUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">RSS Feed</a>
+        <a href={SITE_CONFIG.feedUrl} target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">{t.footer.legal.rss}</a>
         <span>|</span>
-         <a href="https://license.inled.es" target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">MIT-INLED license</a>
+         <a href="https://license.inled.es" target="_blank" rel="noopener" class="hover:text-on-surface-default hover:underline">{t.footer.legal.license}</a>
         <span>|</span>
         <span class="text-on-surface-default font-medium">:)</span>
       </div>

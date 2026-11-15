@@ -4,16 +4,21 @@ import Header from '@/components/Header.astro';
 import PulsarUpdateBanner from '@/components/PulsarUpdateBanner.astro';
 import VersionTwoPopup from '@/components/VersionTwoPopup.astro';
 import Footer from '@/components/Footer.astro';
-import { SITE_CONFIG, FAQS } from '@/config/site';
+import { SITE_CONFIG } from '@/config/site';
+import { LOCALES, LOCALE_TAGS, localizePath, getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
+
 const {
-  title = "PulsarOS Bittenfruit — The macOS experience, without a Mac",
-  description = "PulsarOS Bittenfruit captures the UI and UX of macOS with the most innovative features on Linux. Free, open source, and built by the community."
+  title = t.meta.title,
+  description = t.meta.description,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
@@ -26,6 +31,7 @@ const softwareSchema = {
   "operatingSystem": "Linux",
   "applicationCategory": "Desktop Environment / Operating System",
   "description": description,
+  "inLanguage": LOCALE_TAGS[locale],
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -40,7 +46,8 @@ const softwareSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": FAQS.map((item) => ({
+  "inLanguage": LOCALE_TAGS[locale],
+  "mainEntity": t.faq.items.map((item) => ({
     "@type": "Question",
     "name": item.question,
     "acceptedAnswer": {
@@ -51,7 +58,7 @@ const faqSchema = {
 };
 ---
 <!doctype html>
-<html lang="en">
+<html lang={LOCALE_TAGS[locale]}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -64,6 +71,92 @@ const faqSchema = {
 		<meta name="robots" content="index, follow" />
 		<meta name="theme-color" content="#ffffff" />
 
+		<!-- Language alternates -->
+		{LOCALES.map((item) => (
+			<link rel="alternate" hreflang={LOCALE_TAGS[item]} href={new URL(localizePath(Astro.url.pathname, item), canonicalURL).href} />
+		))}
+		<link rel="alternate" hreflang="x-default" href={new URL(localizePath(Astro.url.pathname, 'en'), canonicalURL).href} />
+
+		<!-- Pick the visitor's language on first visit: saved choice, then browser, then IP -->
+		<script is:inline>
+			(function () {
+				var AUTO = ['es', 'it', 'fr', 'de'];
+				var KEY = 'pulsar-locale';
+				var path = location.pathname;
+				var segment = path.split('/').filter(Boolean)[0];
+				if (AUTO.indexOf(segment) !== -1) return;
+
+				function target(loc) {
+					if (!loc || loc === 'en') return;
+					var rest = path === '/' ? '/' : path;
+					return (rest === '/' ? '/' + loc + '/' : '/' + loc + rest) + location.search + location.hash;
+				}
+
+				function go(loc) {
+					var url = target(loc);
+					if (url && url !== path + location.search + location.hash) location.replace(url);
+				}
+
+				var saved = null;
+				try { saved = localStorage.getItem(KEY); } catch (e) {}
+				if (saved) { go(saved); return; }
+
+				var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+				for (var i = 0; i < langs.length; i++) {
+					var base = String(langs[i]).toLowerCase().split('-')[0];
+					if (AUTO.indexOf(base) !== -1) { go(base); return; }
+					if (base === 'en') break;
+				}
+
+				// Browser did not decide: fall back to the country IP (Cloudflare trace),
+				// then to the time zone, without delaying the page for long.
+				var byCountry = {
+					ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es', UY: 'es',
+					EC: 'es', BO: 'es', PY: 'es', DO: 'es', GT: 'es', HN: 'es', SV: 'es', NI: 'es',
+					PR: 'es', CR: 'es', PA: 'es', CU: 'es',
+					IT: 'it', SM: 'it', VA: 'it',
+					FR: 'fr', BE: 'fr', MC: 'fr', LU: 'fr',
+					DE: 'de', AT: 'de', CH: 'de', LI: 'de'
+				};
+
+				function byTimeZone() {
+					try {
+						var zone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+						if (zone.indexOf('Europe/Madrid') === 0) return 'es';
+						if (zone.indexOf('Europe/Rome') === 0) return 'it';
+						if (zone.indexOf('Europe/Paris') === 0 || zone.indexOf('Europe/Monaco') === 0) return 'fr';
+						if (zone.indexOf('Europe/Berlin') === 0 || zone.indexOf('Europe/Vienna') === 0 || zone.indexOf('Europe/Zurich') === 0) return 'de';
+					} catch (e) {}
+					return null;
+				}
+
+				if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+
+				var done = false;
+				var timer = setTimeout(function () {
+					if (done) return;
+					done = true;
+					go(byTimeZone());
+				}, 1200);
+
+				fetch('/cdn-cgi/trace', { cache: 'no-store' })
+					.then(function (res) { return res.ok ? res.text() : ''; })
+					.then(function (text) {
+						if (done) return;
+						done = true;
+						clearTimeout(timer);
+						var match = /^loc=([A-Z]{2})$/m.exec(text || '');
+						go(match ? byCountry[match[1]] : byTimeZone());
+					})
+					.catch(function () {
+						if (done) return;
+						done = true;
+						clearTimeout(timer);
+						go(byTimeZone());
+					});
+			})();
+		</script>
+
 		<!-- OpenGraph Meta Tags -->
 		<meta property="og:site_name" content={SITE_CONFIG.name} />
 		<meta property="og:type" content="website" />
@@ -71,6 +164,7 @@ const faqSchema = {
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:locale" content={LOCALE_TAGS[locale]} />
 
 		<!-- Twitter Card Meta Tags -->
 		<meta name="twitter:card" content="summary_large_image" />
@@ -87,7 +181,7 @@ const faqSchema = {
 	<body class="bg-surface-default text-on-surface-default font-text antialiased selection:bg-primary/20 selection:text-primary min-h-screen">
 
 		<a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-full focus:shadow-lg focus:outline-none">
-			Skip to main content
+			{t.a11y.skip}
 		</a>
 
 		<div id="main-root" class="min-h-screen flex flex-col justify-between">

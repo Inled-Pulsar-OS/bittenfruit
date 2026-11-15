@@ -1,34 +1,53 @@
 ---
+import { fill } from '@/i18n';
+
 interface Props {
   src: string;
   poster?: string;
+  kind?: 'video' | 'image';
   ariaLabel?: string;
   videoId?: string;
+  maximizeLabel?: string;
+  closeLabel?: string;
 }
 
 const {
   src,
   poster,
-  ariaLabel = "Video demo",
+  kind = 'video',
+  ariaLabel = 'Video demo',
   videoId,
+  maximizeLabel = 'Maximize {name}',
+  closeLabel = 'Close video',
 } = Astro.props;
 
 const lightboxId = videoId || `lb-${ariaLabel.toLowerCase().replace(/\s+/g, '-')}`;
+const isImage = kind === 'image';
 ---
 
 <article class="relative group overflow-hidden rounded-[32px] border border-neutral-200 bg-black aspect-video w-full shadow-xl max-w-[640px]">
-  <video
-    src={src}
-    poster={poster || undefined}
-    autoplay
-    loop
-    muted
-    playsinline
-    preload="metadata"
-    aria-label={ariaLabel}
-    data-video-id={lightboxId}
-    class="w-full h-full object-cover object-center"
-  ></video>
+  {isImage ? (
+    <img
+      src={src}
+      alt={ariaLabel}
+      loading="lazy"
+      decoding="async"
+      class="w-full h-full object-cover object-center"
+    />
+  ) : (
+    <video
+      src={src}
+      poster={poster || undefined}
+      loop
+      muted
+      playsinline
+      preload="none"
+      aria-label={ariaLabel}
+      data-demo-video
+      data-video-id={lightboxId}
+      class="w-full h-full object-cover object-center"
+    ></video>
+  )}
 
   <!-- Overlay gradiente sutil en hover -->
   <div
@@ -37,10 +56,10 @@ const lightboxId = videoId || `lb-${ariaLabel.toLowerCase().replace(/\s+/g, '-')
 
   <!-- Boton central Maximizar (solo hover) -->
   <button
-    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 w-full h-full"
+    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-500 z-20 w-full h-full"
     data-action="maximize"
     data-target={lightboxId}
-    aria-label={`Maximizar ${ariaLabel}`}
+    aria-label={fill(maximizeLabel, { name: ariaLabel })}
   >
     <div class="w-14 h-14 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white shadow-lg transition-transform duration-300 hover:scale-110 border border-white/10">
       <i class="fa-solid fa-expand text-2xl"></i>
@@ -60,28 +79,35 @@ const lightboxId = videoId || `lb-${ariaLabel.toLowerCase().replace(/\s+/g, '-')
     class="absolute inset-0 w-full h-full z-0"
     data-action="close"
     data-target={lightboxId}
-    aria-label="Cerrar video"
+    aria-label={closeLabel}
   ></button>
 
   <!-- Contenedor del video centrado -->
   <div class="relative z-10 w-full max-w-[90vw] max-h-[90vh] flex items-center justify-center">
-    <video
-      src={src}
-      poster={poster || undefined}
-      autoplay
-      loop
-      muted
-      playsinline
-      preload="metadata"
-      class="w-full h-full max-w-[90vw] max-h-[85vh] object-contain object-center rounded-[24px] border border-white/20 bg-black shadow-2xl"
-    ></video>
+    {isImage ? (
+      <img
+        src={src}
+        alt={ariaLabel}
+        class="w-full h-full max-w-[90vw] max-h-[85vh] object-contain object-center rounded-[24px] border border-white/20 bg-black shadow-2xl"
+      />
+    ) : (
+      <video
+        src={src}
+        poster={poster || undefined}
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        class="w-full h-full max-w-[90vw] max-h-[85vh] object-contain object-center rounded-[24px] border border-white/20 bg-black shadow-2xl"
+      ></video>
+    )}
 
     <!-- Boton central CERRAR -->
     <button
       class="absolute -top-3 -right-3 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white shadow-xl transition-colors hover:bg-white/20 border border-white/10"
       data-action="close"
       data-target={lightboxId}
-      aria-label="Cerrar video"
+      aria-label={closeLabel}
     >
       <i class="fa-solid fa-times text-lg"></i>
     </button>
@@ -99,8 +125,51 @@ const lightboxId = videoId || `lb-${ariaLabel.toLowerCase().replace(/\s+/g, '-')
     });
   }
 
+  // Demos only load and play while on screen: 19 autoplaying videos used to
+  // download and decode at once on page load.
+  let demoObserver: IntersectionObserver | null = null;
+
+  function initDemoVideos() {
+    const videos = document.querySelectorAll<HTMLVideoElement>('video[data-demo-video]');
+    if (!videos.length) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    if ('IntersectionObserver' in window) {
+      demoObserver?.disconnect();
+      demoObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target as HTMLVideoElement;
+            if (entry.isIntersecting) {
+              if (video.preload === 'none') video.preload = 'metadata';
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+      videos.forEach((video) => demoObserver!.observe(video));
+    } else {
+      videos.forEach((video) => video.play().catch(() => {}));
+    }
+  }
+
+  function cleanupDemoVideos() {
+    demoObserver?.disconnect();
+    demoObserver = null;
+  }
+
   mountLightboxes();
-  document.addEventListener('astro:page-load', mountLightboxes);
+  initDemoVideos();
+  document.addEventListener('astro:page-load', () => {
+    mountLightboxes();
+    initDemoVideos();
+  });
+  document.addEventListener('astro:before-swap', cleanupDemoVideos);
 
   document.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement | null)?.closest<HTMLButtonElement>('button[data-action]');

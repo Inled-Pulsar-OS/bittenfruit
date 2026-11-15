@@ -1,51 +1,31 @@
 ---
-// Feature list in the style of the Benefits section: icon badge, bold lead-in,
-// then body copy. Icons are Lucide paths (lucide-static), one per feature.
-const phoneFeatures = [
-  {
-    title: "Transfer files",
-    description: "Send files from phone to PC and vice versa without cables or complex software.",
-    // arrow-left-right
-    icon: ["M8 3 4 7l4 4", "M4 7h16", "m16 21 4-4-4-4", "M20 17H4"],
-  },
-  {
-    title: "PC filesystem",
-    description: "Mount your PC's filesystem on your phone and access all files directly.",
-    // folder
-    icon: ["M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"],
-  },
-  {
-    title: "Terminal access",
-    description: "Use your PC terminal from your phone, run commands anywhere, anytime.",
-    // terminal
-    icon: ["M12 19h8", "m4 17 6-6-6-6"],
-  },
-  {
-    title: "Clipboard & notifications",
-    description: "Share clipboard and notifications between phone and PC seamlessly.",
-    // clipboard
-    icon: [
-      "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
-      "M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z",
-    ],
-  },
-  {
-    title: "Screen control",
-    description: "View and share screens, control PC apps like mobile apps with one click.",
-    // monitor-smartphone
-    icon: [
-      "M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8",
-      "M10 19v-3.96 3.15",
-      "M7 19h5",
-      "M16 12h4a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z",
-    ],
-  },
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
+
+// Icon paths stay in code; titles and descriptions come from the locale file.
+const phoneIcons = [
+  ["M8 3 4 7l4 4", "M4 7h16", "m16 21 4-4-4-4", "M20 17H4"],
+  ["M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"],
+  ["M12 19h8", "m4 17 6-6-6-6"],
+  [
+    "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
+    "M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z",
+  ],
+  [
+    "M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8",
+    "M10 19v-3.96 3.15",
+    "M7 19h5",
+    "M16 12h4a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z",
+  ],
 ];
 ---
 
 <section
   id="pulsar-phone"
-  aria-label="Pulsar Phone"
+  aria-label={t.phone.aria}
   class="relative bg-[#f5f5f7] text-[#1d1d1f] border-t border-neutral-100 overflow-hidden py-24 sm:py-36"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
@@ -53,7 +33,7 @@ const phoneFeatures = [
     <div class="flex justify-center mb-12 sm:mb-16">
       <img
         src="https://hosted.inled.es/cdn/pulsar-phone-logo-pulsarphone.png"
-        alt="Pulsar Phone logo"
+        alt={t.phone.logoAlt}
         class="w-12 h-12 sm:w-16 sm:h-16 rounded-[12px] sm:rounded-[16px] bg-neutral-200 border border-neutral-300 object-cover shadow-inner"
         width="48"
         height="48"
@@ -62,21 +42,18 @@ const phoneFeatures = [
     </div>
 
     <span class="text-primary font-semibold text-sm tracking-wide uppercase mb-6 block">
-      Pulsar Phone
+      {t.phone.eyebrow}
     </span>
     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-[#1d1d1f] mb-8 leading-tight">
-      Do more than with the Apple ecosystem, but without Apple
+      {t.phone.title}
     </h2>
     <p class="text-lg sm:text-xl text-on-surface-muted leading-relaxed mb-16 max-w-2xl mx-auto">
-      The app that can do it all. Send files from phone to PC and vice versa, mount your PC's
-      filesystem on your phone, use your PC terminal from your phone, share clipboard and
-      notifications, view and share screens, control PC apps like mobile apps sync with QR,
-      one-click phone VPN, and run phone apps natively on your PC. No more apps, no more friction.
+      {t.phone.body}
     </p>
 
     <!-- Features: 3 columns, each item left-aligned; incomplete rows stay centered -->
     <div class="flex flex-wrap justify-center gap-x-12 gap-y-14 text-left">
-      {phoneFeatures.map((feature) => (
+      {t.phone.items.map((feature, index) => (
         <div class="gsap-bento-card flex w-full flex-col items-start md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)]">
           <div class="size-11 rounded-[var(--radius-md)] bg-primary/10 text-primary flex items-center justify-center mb-5">
             <svg
@@ -89,7 +66,7 @@ const phoneFeatures = [
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-              {feature.icon.map((d) => <path d={d} />)}
+              {(phoneIcons[index] ?? []).map((d) => <path d={d} />)}
             </svg>
           </div>
           <p class="text-on-surface-muted text-[15px] sm:text-base leading-relaxed">

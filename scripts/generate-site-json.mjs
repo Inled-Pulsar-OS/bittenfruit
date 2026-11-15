@@ -23,6 +23,8 @@ console.log(`[generate-site-json] Generated ${siteOutputPath} with ${GALLERY_FEA
 // 2. Generate contributors.json (resolving relative avatar paths to full URLs)
 const resolvedContributors = CONTRIBUTORS.map(c => ({
   ...c,
+  // Contributors without GitHub still expose a valid URL for external apps.
+  github: c.github || 'about:blank',
   avatar: c.avatar.startsWith('http://') || c.avatar.startsWith('https://')
     ? c.avatar
     : `https://bittenfruit.inled.es${c.avatar.startsWith('/') ? '' : '/'}${c.avatar}`
