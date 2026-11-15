@@ -27,7 +27,7 @@ export const CONTRIBUTORS: Contributor[] = [
   },
   {
     name: "Gautamvir Singh (a.k.a. hhh)",
-    role: "Desktop Dev & Media Team",
+    role: "Expert Desktop Dev & Media Team",
     avatar: "/assets/people/hhh.png",
     discord: "https://discord.com/users/1237308179566690345",
     discordUser: "hhh092470",
