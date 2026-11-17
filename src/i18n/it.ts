@@ -358,11 +358,26 @@ export const it: Content = {
       'Il mio computer può eseguire Pulsar OS Bitten Fruit? Modello: {model}. Requisiti: processore a 64 bit (AMD64), 4 GB di RAM, 20 GB di disco, USB da 8 GB. Quale edizione devo usare, Debian o Arch, e quale variante di avvio: GRUB se il PC usa il BIOS legacy, o rEFInd se usa UEFI?',
     requirementsTitle: 'Cosa ti serve',
     requirements: [
-      'Un processore a 64 bit (AMD64)',
-      '4 GB di RAM',
-      '20 GB di spazio libero su disco',
-      'Una USB da 8 GB. Nient’altro.',
+      { id: 'arch', text: 'Un processore a 64 bit (AMD64)' },
+      { id: 'ram', text: '4 GB di RAM' },
+      { id: 'disk', text: '20 GB di spazio libero su disco' },
+      { id: 'usb', text: 'Una USB da 8 GB. Nient’altro.' },
     ],
+    requirementsScanButton: 'Controlla questo PC',
+    requirementsScanBusy: 'Controllo…',
+    requirementsScanOk: 'Tutto ok',
+    requirementsScanFail: 'Insufficiente',
+    requirementsScanUnknown: 'Non verificabile',
+    requirementsScanManual: 'Controlla tu',
+    requirementsScanSummaryOk:
+      'Sembra compatibile. È una stima: il browser non vede tutto.',
+    requirementsScanSummaryFail:
+      'Probabilmente non compatibile. È una stima basata su ciò che segnala il browser.',
+    requirementsScanSummaryUnknown:
+      'Il browser non può confermare tutto. Controlla le righe segnate sopra, oppure provalo in live.',
+    requirementsScanLive:
+      'Non sei sicuro? Avvia Pulsar OS in modalità live dalla USB. Non viene installato né modificato nulla.',
+    requirementsScanDownload: 'Scarica',
     requirementsNoteHtml:
       'Tutto qui. E il modo migliore per capire che effetto fa? <strong>Provalo sul tuo PC</strong>: puoi avviare Pulsar OS in live dalla USB, senza installare nulla e senza cambiare ciò che c’è già sul computer.',
     usbTitle: 'Mettere Pulsar OS sulla USB',

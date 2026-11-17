@@ -3,11 +3,13 @@ import { SITE_CONFIG } from '@/config/site';
 import { getLocale } from '@/i18n/config';
 import { getContent } from '@/i18n';
 
+import CompatibilityHelper from './CompatibilityHelper.astro';
+import MinimumRequirements from './MinimumRequirements.astro';
+
 const locale = getLocale(Astro.url.pathname);
 const t = getContent(locale);
 const editions = t.editions.cards;
 
-const requirements = t.editions.requirements;
 const bootExplainers = t.editions.explainers;
 ---
 
@@ -55,41 +57,10 @@ const bootExplainers = t.editions.explainers;
     </div>
 
     <!-- Compatibility helper: ask Google AI Mode about your exact PC -->
-    <div class="bg-surface-muted rounded-lg border border-neutral-100 p-8 sm:p-10 mb-12">
-      <h3 class="text-2xl font-semibold font-display mb-2">{t.editions.compatTitle}</h3>
-      <p class="text-sm text-on-surface-muted mb-6">{t.editions.compatLead}</p>
-      <form
-        id="compat-check-form"
-        class="flex flex-col sm:flex-row gap-3"
-        autocomplete="off"
-        data-query-template={t.editions.compatQuery}
-      >
-        <input
-          id="compat-check-input"
-          type="text"
-          required
-          placeholder={t.editions.compatPlaceholder}
-          aria-label={t.editions.compatInputAria}
-          class="flex-1 min-h-11 rounded-[var(--radius-full)] border border-neutral-100 bg-surface-default px-[21px] py-[11px] font-[var(--font-text)] text-[17px] outline-none focus:border-primary transition-colors"
-        />
-        <button type="submit" class="apple-button-primary whitespace-nowrap">{t.editions.compatButton}</button>
-      </form>
-      <p class="text-xs text-on-surface-muted mt-4">{t.editions.compatNote}</p>
-    </div>
+    <CompatibilityHelper />
 
     <!-- Minimum requirements -->
-    <div class="bg-surface-muted rounded-lg border border-neutral-100 p-8 sm:p-10 mb-12">
-      <h3 class="text-2xl font-semibold font-display mb-6">{t.editions.requirementsTitle}</h3>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
-        {requirements.map((r) => (
-          <li class="flex items-center text-sm font-medium">
-            <svg class="size-4 text-primary mr-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-            {r}
-          </li>
-        ))}
-      </ul>
-      <p class="text-sm text-on-surface-muted leading-relaxed" set:html={t.editions.requirementsNoteHtml} />
-    </div>
+    <MinimumRequirements />
 
     <!-- USB flashing advice -->
     <div class="rounded-lg border border-neutral-100 bg-[var(--color-tertiary)] p-8 sm:p-10 mb-12">
@@ -109,31 +80,3 @@ const bootExplainers = t.editions.explainers;
     </div>
   </div>
 </section>
-
-<script>
-  import { fill } from '@/i18n';
-
-  function initCompatCheck() {
-    const form = document.getElementById('compat-check-form') as HTMLFormElement | null;
-    const input = document.getElementById('compat-check-input') as HTMLInputElement | null;
-    if (!form || !input) return;
-    if (form.dataset.bound === '1') return;
-    form.dataset.bound = '1';
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const model = input.value.trim();
-      if (!model) return;
-      const template = form.dataset.queryTemplate || '';
-      const query = fill(template, { model });
-      window.open(`https://www.google.com/search?udm=50&q=${encodeURIComponent(query)}`, '_blank', 'noopener');
-    });
-  }
-
-  document.addEventListener('astro:page-load', initCompatCheck);
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCompatCheck);
-  } else {
-    initCompatCheck();
-  }
-</script>

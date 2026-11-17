@@ -1,0 +1,107 @@
+---
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
+const e = t.editions;
+
+const requirements = e.requirements;
+// Only these rows can be checked from a browser; the rest stay "check yourself".
+const SCANNABLE = new Set(['arch', 'ram']);
+---
+
+<!-- Minimum requirements -->
+<section id="requirements-card" aria-labelledby="requirements-title" class="bg-surface-muted rounded-lg border border-neutral-100 p-8 sm:p-10 mb-12">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <h3 id="requirements-title" class="text-2xl font-semibold font-display">{e.requirementsTitle}</h3>
+    <button
+      type="button"
+      id="requirements-scan"
+      class="cursor-pointer apple-button-secondary whitespace-nowrap"
+      data-busy-label={e.requirementsScanBusy}
+      aria-describedby="requirements-summary-text"
+    >
+      {e.requirementsScanButton}
+    </button>
+  </div>
+
+  <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
+    {requirements.map((r) => (
+      <li class="group/row flex items-center justify-between gap-3 text-sm font-medium" data-check={r.id} data-scannable={SCANNABLE.has(r.id) ? '1' : '0'} data-status="idle">
+        <span class="flex items-center">
+          <svg class="size-4 text-primary mr-3 shrink-0 group-data-[status=fail]/row:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+          <svg class="hidden size-4 text-error mr-3 shrink-0 group-data-[status=fail]/row:block" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" /></svg>
+          {r.text}
+        </span>
+        <span class="text-xs whitespace-nowrap">
+          <span class="hidden group-data-[status=ok]/row:inline text-secondary"><span class="sr-only">: </span>{e.requirementsScanOk}</span>
+          <span class="hidden group-data-[status=fail]/row:inline text-error"><span class="sr-only">: </span>{e.requirementsScanFail}</span>
+          <span class="hidden group-data-[status=unknown]/row:inline text-on-surface-muted"><span class="sr-only">: </span>{e.requirementsScanUnknown}</span>
+          <span class="hidden group-data-[status=manual]/row:inline text-on-surface-muted"><span class="sr-only">: </span>{e.requirementsScanManual}</span>
+        </span>
+      </li>
+    ))}
+  </ul>
+
+  <div
+    id="requirements-summary"
+    class="group/sum data-[verdict]:mb-6"
+    data-ok={e.requirementsScanSummaryOk}
+    data-fail={e.requirementsScanSummaryFail}
+    data-unknown={e.requirementsScanSummaryUnknown}
+  >
+    <p
+      id="requirements-summary-text"
+      role="status"
+      class="text-[17px] font-medium group-data-[verdict=ok]/sum:text-secondary group-data-[verdict=fail]/sum:text-error"
+    ></p>
+    <p class="hidden group-data-verdict/sum:block text-sm text-on-surface-muted mt-2">
+      {e.requirementsScanLive}
+      <a href="#downloads-section" class="text-secondary underline underline-offset-2 hover:no-underline">{e.requirementsScanDownload}<span aria-hidden="true"> →</span></a>
+    </p>
+  </div>
+
+  <p class="text-sm text-on-surface-muted leading-relaxed" set:html={e.requirementsNoteHtml} />
+</section>
+
+<script>
+  import { scanHardware, verdict } from '@/lib/hardware';
+
+  function initRequirementsScan() {
+    const button = document.getElementById('requirements-scan') as HTMLButtonElement | null;
+    const card = document.getElementById('requirements-card');
+    const summary = document.getElementById('requirements-summary');
+    const text = document.getElementById('requirements-summary-text');
+    if (!button || !card || !summary || !text) return;
+    if (button.dataset.bound === '1') return;
+    button.dataset.bound = '1';
+    const idleLabel = button.textContent?.trim() ?? '';
+
+    button.addEventListener('click', async () => {
+      if (button.getAttribute('aria-busy') === 'true') return;
+      button.setAttribute('aria-busy', 'true');
+      button.textContent = button.dataset.busyLabel ?? idleLabel;
+      try {
+        const r = await scanHardware();
+        card.querySelectorAll<HTMLElement>('[data-check]').forEach((row) => {
+          const id = row.dataset.check as keyof typeof r;
+          row.dataset.status = row.dataset.scannable === '1' ? r[id] : 'manual';
+        });
+        const v = verdict(r);
+        summary.dataset.verdict = v;
+        text.textContent = summary.dataset[v] ?? '';
+      } finally {
+        button.removeAttribute('aria-busy');
+        button.textContent = idleLabel;
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initRequirementsScan);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRequirementsScan);
+  } else {
+    initRequirementsScan();
+  }
+</script>

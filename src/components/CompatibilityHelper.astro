@@ -1,0 +1,59 @@
+---
+import { getLocale } from '@/i18n/config';
+import { getContent } from '@/i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const t = getContent(locale);
+---
+
+<section aria-labelledby="compat-title" class="bg-surface-muted rounded-lg border border-neutral-100 p-8 sm:p-10 mb-12">
+  <h3 id="compat-title" class="text-2xl font-semibold font-display mb-2">{t.editions.compatTitle}</h3>
+  <p id="compat-lead" class="text-sm text-on-surface-muted mb-6">{t.editions.compatLead}</p>
+  <form
+    id="compat-check-form"
+    class="flex flex-col sm:flex-row gap-3"
+    autocomplete="off"
+    data-query-template={t.editions.compatQuery}
+  >
+    <label for="compat-check-input" class="sr-only">{t.editions.compatInputAria}</label>
+    <input
+        id="compat-check-input"
+        name="model"
+        type="text"
+        required
+        placeholder={t.editions.compatPlaceholder}
+        aria-describedby="compat-lead compat-note"
+        class="flex-1 min-h-11 rounded-full border border-neutral-100 bg-surface-default px-5.25 py-2.75 font-(--font-text) text-[17px] focus:border-primary transition-colors"
+    />
+    <button type="submit" class="cursor-pointer apple-button-primary whitespace-nowrap">{t.editions.compatButton}</button>
+  </form>
+  <p id="compat-note" class="text-xs text-on-surface-muted mt-4">{t.editions.compatNote}</p>
+</section>
+
+<script>
+  import { fill } from '@/i18n';
+
+  function initCompatCheck() {
+    const form = document.getElementById('compat-check-form') as HTMLFormElement | null;
+    const input = document.getElementById('compat-check-input') as HTMLInputElement | null;
+    if (!form || !input) return;
+    if (form.dataset.bound === '1') return;
+    form.dataset.bound = '1';
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const model = input.value.trim();
+      if (!model) return;
+      const template = form.dataset.queryTemplate || '';
+      const query = fill(template, { model });
+      window.open(`https://www.google.com/search?udm=50&q=${encodeURIComponent(query)}`, '_blank', 'noopener');
+    });
+  }
+
+  document.addEventListener('astro:page-load', initCompatCheck);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCompatCheck);
+  } else {
+    initCompatCheck();
+  }
+</script>
