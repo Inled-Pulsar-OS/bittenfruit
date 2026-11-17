@@ -378,11 +378,26 @@ export const en = {
       'Can my computer run Pulsar OS Bitten Fruit? Model: {model}. Requirements: 64-bit (AMD64) processor, 4 GB RAM, 20 GB disk, 8 GB USB. Which edition should I use, Debian or Arch, and which boot variant: GRUB if the PC uses legacy BIOS, or rEFInd if it uses UEFI?',
     requirementsTitle: 'What you need',
     requirements: [
-      'A 64-bit (AMD64) processor',
-      '4 GB of RAM',
-      '20 GB of free disk space',
-      'A 8 GB USB stick. Nothing more.',
+      { id: 'arch', text: 'A 64-bit (AMD64) processor' },
+      { id: 'ram', text: '4 GB of RAM' },
+      { id: 'disk', text: '20 GB of free disk space' },
+      { id: 'usb', text: 'A 8 GB USB stick. Nothing more.' },
     ],
+    requirementsScanButton: 'Check this PC',
+    requirementsScanBusy: 'Checking…',
+    requirementsScanOk: 'Looks fine',
+    requirementsScanFail: 'Not enough',
+    requirementsScanUnknown: 'Can’t verify',
+    requirementsScanManual: 'Check yourself',
+    requirementsScanSummaryOk:
+      'Looks compatible. This is an estimate: your browser cannot see everything.',
+    requirementsScanSummaryFail:
+      'Probably not compatible. This is an estimate based on what your browser reports.',
+    requirementsScanSummaryUnknown:
+      'Your browser cannot confirm everything. Check the rows marked above, or just try it live.',
+    requirementsScanLive:
+      'Not sure? Run Pulsar OS live from the USB stick. Nothing is installed or changed.',
+    requirementsScanDownload: 'Download',
     requirementsNoteHtml:
       'That is all. And the best way to find out how it feels? <strong>Try it on your own PC</strong> — you can run Pulsar OS live from the USB stick, without installing anything and without changing what is already on your computer.',
     usbTitle: 'Putting Pulsar OS on the USB',

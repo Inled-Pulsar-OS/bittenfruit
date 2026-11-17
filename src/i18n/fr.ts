@@ -358,11 +358,26 @@ export const fr: Content = {
       'Mon ordinateur peut-il faire tourner Pulsar OS Bitten Fruit ? Modèle : {model}. Prérequis : processeur 64 bits (AMD64), 4 Go de RAM, 20 Go de disque, clé USB de 8 Go. Quelle édition dois-je utiliser, Debian ou Arch, et quelle variante d’amorçage : GRUB si le PC utilise un BIOS hérité, ou rEFInd s’il utilise l’UEFI ?',
     requirementsTitle: 'Ce qu’il vous faut',
     requirements: [
-      'Un processeur 64 bits (AMD64)',
-      '4 Go de RAM',
-      '20 Go d’espace disque libre',
-      'Une clé USB de 8 Go. Rien de plus.',
+      { id: 'arch', text: 'Un processeur 64 bits (AMD64)' },
+      { id: 'ram', text: '4 Go de RAM' },
+      { id: 'disk', text: '20 Go d’espace disque libre' },
+      { id: 'usb', text: 'Une clé USB de 8 Go. Rien de plus.' },
     ],
+    requirementsScanButton: 'Vérifier ce PC',
+    requirementsScanBusy: 'Vérification…',
+    requirementsScanOk: 'Tout va bien',
+    requirementsScanFail: 'Insuffisant',
+    requirementsScanUnknown: 'Non vérifiable',
+    requirementsScanManual: 'À vérifier',
+    requirementsScanSummaryOk:
+      'Semble compatible. C’est une estimation : votre navigateur ne voit pas tout.',
+    requirementsScanSummaryFail:
+      'Probablement incompatible. C’est une estimation basée sur ce que signale votre navigateur.',
+    requirementsScanSummaryUnknown:
+      'Votre navigateur ne peut pas tout confirmer. Vérifiez les lignes signalées ci-dessus, ou essayez en live.',
+    requirementsScanLive:
+      'Un doute ? Lancez Pulsar OS en live depuis la clé USB. Rien n’est installé ni modifié.',
+    requirementsScanDownload: 'Télécharger',
     requirementsNoteHtml:
       'C’est tout. Et la meilleure façon de voir ce que ça donne ? <strong>Essayez-le sur votre propre PC</strong> : vous pouvez lancer Pulsar OS en direct depuis la clé USB, sans rien installer et sans changer ce qu’il y a déjà sur votre ordinateur.',
     usbTitle: 'Mettre Pulsar OS sur la clé USB',

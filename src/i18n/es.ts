@@ -357,11 +357,26 @@ export const es: Content = {
       '¿Puede mi ordenador ejecutar Pulsar OS Bitten Fruit? Modelo: {model}. Requisitos: procesador de 64 bits (AMD64), 4 GB de RAM, 20 GB de disco, USB de 8 GB. ¿Qué edición debo usar, Debian o Arch, y qué variante de arranque: GRUB si el PC usa BIOS heredado, o rEFInd si usa UEFI?',
     requirementsTitle: 'Lo que necesitas',
     requirements: [
-      'Un procesador de 64 bits (AMD64)',
-      '4 GB de RAM',
-      '20 GB de espacio libre en disco',
-      'Un USB de 8 GB. Nada más.',
+      { id: 'arch', text: 'Un procesador de 64 bits (AMD64)' },
+      { id: 'ram', text: '4 GB de RAM' },
+      { id: 'disk', text: '20 GB de espacio libre en disco' },
+      { id: 'usb', text: 'Un USB de 8 GB. Nada más.' },
     ],
+    requirementsScanButton: 'Comprobar este PC',
+    requirementsScanBusy: 'Comprobando…',
+    requirementsScanOk: 'Todo bien',
+    requirementsScanFail: 'Insuficiente',
+    requirementsScanUnknown: 'No verificable',
+    requirementsScanManual: 'Compruébalo tú',
+    requirementsScanSummaryOk:
+      'Parece compatible. Es una estimación: tu navegador no puede ver todo.',
+    requirementsScanSummaryFail:
+      'Probablemente no es compatible. Es una estimación basada en lo que informa tu navegador.',
+    requirementsScanSummaryUnknown:
+      'Tu navegador no puede confirmarlo todo. Revisa las filas marcadas arriba, o pruébalo en vivo.',
+    requirementsScanLive:
+      '¿Dudas? Ejecuta Pulsar OS en vivo desde el USB. No se instala ni se cambia nada.',
+    requirementsScanDownload: 'Descargar',
     requirementsNoteHtml:
       'Eso es todo. ¿Y la mejor forma de saber cómo se siente? <strong>Pruébalo en tu propio PC</strong>: puedes ejecutar Pulsar OS en vivo desde el USB, sin instalar nada y sin cambiar lo que ya hay en tu ordenador.',
     usbTitle: 'Poner Pulsar OS en el USB',

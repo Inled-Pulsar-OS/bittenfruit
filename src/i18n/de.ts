@@ -358,11 +358,26 @@ export const de: Content = {
       'Kann mein Computer Pulsar OS Bitten Fruit ausführen? Modell: {model}. Anforderungen: 64-Bit-Prozessor (AMD64), 4 GB RAM, 20 GB Speicher, 8-GB-USB-Stick. Welche Edition soll ich nutzen, Debian oder Arch, und welche Boot-Variante: GRUB, wenn der PC Legacy-BIOS nutzt, oder rEFInd, wenn er UEFI nutzt?',
     requirementsTitle: 'Was du brauchst',
     requirements: [
-      'Einen 64-Bit-Prozessor (AMD64)',
-      '4 GB RAM',
-      '20 GB freien Speicherplatz',
-      'Einen 8-GB-USB-Stick. Mehr nicht.',
+      { id: 'arch', text: 'Einen 64-Bit-Prozessor (AMD64)' },
+      { id: 'ram', text: '4 GB RAM' },
+      { id: 'disk', text: '20 GB freien Speicherplatz' },
+      { id: 'usb', text: 'Einen 8-GB-USB-Stick. Mehr nicht.' },
     ],
+    requirementsScanButton: 'Diesen PC prüfen',
+    requirementsScanBusy: 'Prüfe…',
+    requirementsScanOk: 'Sieht gut aus',
+    requirementsScanFail: 'Nicht genug',
+    requirementsScanUnknown: 'Nicht prüfbar',
+    requirementsScanManual: 'Selbst prüfen',
+    requirementsScanSummaryOk:
+      'Sieht kompatibel aus. Das ist eine Schätzung: Dein Browser sieht nicht alles.',
+    requirementsScanSummaryFail:
+      'Wahrscheinlich nicht kompatibel. Das ist eine Schätzung auf Basis der Browser-Angaben.',
+    requirementsScanSummaryUnknown:
+      'Dein Browser kann nicht alles bestätigen. Prüfe die oben markierten Zeilen oder probiere es live.',
+    requirementsScanLive:
+      'Unsicher? Starte Pulsar OS live vom USB-Stick. Es wird nichts installiert oder verändert.',
+    requirementsScanDownload: 'Herunterladen',
     requirementsNoteHtml:
       'Das ist alles. Und der beste Weg herauszufinden, wie es sich anfühlt? <strong>Probiere es auf deinem eigenen PC</strong>: Du kannst Pulsar OS live vom USB-Stick starten, ohne etwas zu installieren und ohne das zu verändern, was schon auf deinem Rechner ist.',
     usbTitle: 'Pulsar OS auf den USB-Stick bringen',
